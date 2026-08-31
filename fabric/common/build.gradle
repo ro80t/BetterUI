@@ -1,0 +1,29 @@
+plugins {
+    id 'buildlogic.java-fabric-conventions'
+    id 'buildlogic.java-module-conventions'
+}
+
+evaluationDependsOn(':common:api')
+evaluationDependsOn(':common:impl')
+
+loom {
+    accessWidenerPath = file('src/main/resources/betterui.fabric.common.accesswidener')
+    enableTransitiveAccessWideners.set(true)
+}
+
+dependencies {
+    minecraft libs.minecraft.'1218'
+    mappings(variantOf(libs.fabric.yarn.'1218') {
+        classifier('v2')
+    })
+    modImplementation libs.fabric.loader.'1218'
+    modImplementation libs.fabric.api.'1218'
+
+    implementation project(':common:api')
+    implementation project(':common:impl')
+}
+
+jar {
+    from(project(':common:api').sourceSets.main.output)
+    from(project(':common:impl').sourceSets.main.output)
+}

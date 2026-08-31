@@ -1,0 +1,30 @@
+# Gradle
+.gradle
+build-logic/.gradle
+build
+*/build
+*/*/build
+*/src/main/generated
+
+# Fabric Loom / NeoForge Gradle run directories
+run
+*/run
+*/*/run
+
+# IDE
+.idea
+.fleet
+.vscode
+*.ipr
+*.iws
+*.iml
+out
+bin
+*.launch
+.settings
+.classpath
+.project
+
+# Logs
+*.log
+*.hprof

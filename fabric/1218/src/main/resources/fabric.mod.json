@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "${MOD_ID}",
+  "version": "${MOD_VERSION}",
+  "name": "${MOD_NAME}",
+  "description": "${MOD_DESCRIPTION}",
+  "authors": [],
+  "contact": {
+    "sources": "https://github.com/YOUR_ACCOUNT/better-ui/",
+    "issues": "https://github.com/YOUR_ACCOUNT/better-ui/issues"
+  },
+  "license": "TODO-CHOOSE-A-LICENSE",
+  "icon": "icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "org.betterui.compat.fabric.common.FabricBetterUiModInitializer"
+    ]
+  },
+  "mixins": [
+    "betterui.fabric.common.mixins.json",
+    "betterui.fabric.v1218.mixins.json"
+  ],
+  "depends": {
+    "minecraft": [
+      "=1.21.8"
+    ],
+    "fabricloader": ">=0.19.0"
+  },
+  "suggests": {
+    "fabric": ">=0.136.0"
+  },
+  "accessWidener": "betterui.fabric.v1218.accesswidener"
+}
