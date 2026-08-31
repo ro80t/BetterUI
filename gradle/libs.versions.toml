@@ -6,6 +6,10 @@ slf4j = "2.1.0-alpha1"
 #Gradle Plugin
 fabric-loom = "1.17.20"
 neoforge-gradle = "7.1.38"
+forge-gradle = "7.0.36"
+
+# Mixin (used directly by the Forge module; Fabric/NeoForge pull Mixin in transitively)
+mixin = "0.8.7"
 
 # Minecraft Libraries: Fabric 1.20.1
 minecraft-1201 = "1.20.1"
@@ -22,6 +26,9 @@ fabric-api-1218 = "0.136.1+1.21.8"
 # Minecraft Libraries: NeoForge 1.21.8
 neoforge-api-1218 = "21.8.54"
 
+# Minecraft Libraries: Forge 1.21.8
+forge-1218 = "1.21.8-58.1.22"
+
 
 [libraries]
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
@@ -31,6 +38,9 @@ slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 #Gradle Plugin
 fabric-loom = { module = "fabric-loom:fabric-loom.gradle.plugin", version.ref = "fabric-loom" }
 neoforge-gradle = { module = "net.neoforged.gradle.userdev:net.neoforged.gradle.userdev.gradle.plugin", version.ref = "neoforge-gradle" }
+forge-gradle = { module = "net.minecraftforge.gradle:net.minecraftforge.gradle.gradle.plugin", version.ref = "forge-gradle" }
+
+mixin = { module = "org.spongepowered:mixin", version.ref = "mixin" }
 
 # Minecraft Libraries: Fabric 1.20.1
 minecraft-1201 = { module = "org.mojang:minecraft", version.ref = "minecraft-1201" }

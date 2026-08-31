@@ -22,15 +22,23 @@ fabric/
   1201/                  Fabric module for Minecraft 1.20.1
   1218/                  Fabric module for Minecraft 1.21.8
 neoforge/
-  common/                NeoForge module for Minecraft 1.21.8
+  common/                NeoForge module for Minecraft 1.21.8 (ScreenEvent, no raw Mixin needed)
+forge/
+  common/                (Modern) Forge module for Minecraft 1.21.8 (Mixin + ScreenEvent)
 ```
 
 Every module is built from the **same branch**. Each `fabric/<version>` (and, in the future,
-`neoforge/<version>`) module is its own Gradle subproject with its own Minecraft/Yarn/Loader
-dependency versions, producing its own version-specific mod jar. `fabric/common` holds the code
-that does not depend on a specific Minecraft version (currently: detecting which Minecraft
-version is running at launch and picking the right per-version compat layer — see
-`com.ro80t.betterui.compat.fabric.v1218.mixin.minecraft.MixinMain`).
+`neoforge/<version>` / `forge/<version>`) module is its own Gradle subproject with its own
+Minecraft/mappings/loader dependency versions, producing its own version-specific mod jar.
+`fabric/common` holds the code that does not depend on a specific Minecraft version (currently:
+detecting which Minecraft version is running at launch and picking the right per-version compat
+layer — see `com.ro80t.betterui.compat.fabric.v1218.mixin.minecraft.MixinMain`).
+
+Each loader wires up the example "add a button to the pause menu" UI feature the way that's
+idiomatic for it: Fabric and Forge both use a real Mixin injected into the game's vanilla
+pause-menu screen class; NeoForge uses its own `ScreenEvent.Init.Post` instead (NeoForge doesn't
+need raw Mixin for something this simple, and it keeps that module's wiring simpler). All three
+are real, verified-compiling examples — swap in your own feature in the same spot.
 
 ### Adding another Minecraft version
 
@@ -43,13 +51,16 @@ version is running at launch and picking the right per-version compat layer — 
    are tied to a specific Minecraft version's class/method names, so this step cannot be
    automated away.
 
-### About pre-Fabric versions (e.g. 1.7.10)
+### About very old versions (e.g. 1.7.10)
 
 Fabric Loader only supports Minecraft 1.14 and newer, and NeoForge only supports 1.20.1 and
-newer. Minecraft 1.7.10 predates both — Mixin support there requires the legacy
-Forge/ForgeGradle 2.x toolchain (MCP mappings, Java 8 only), which is a fundamentally different
-build system from Fabric Loom / NeoForge Gradle used here. It is not wired into this repository;
-it would need to be added as a separate, independent module/toolchain if truly required.
+newer. The `forge/common` module here uses **modern** Forge (ForgeGradle 7, official mappings,
+Java 21) and only goes back as far as Forge itself keeps building — it does not reach 1.7.10
+either. Minecraft 1.7.10 predates all three of these toolchains — Mixin support there requires
+the legacy Forge/ForgeGradle 2.x toolchain (MCP mappings, Java 8 only), which is a fundamentally
+different build system from the Loom / NeoForge Gradle / ForgeGradle 7 used here. It is not wired
+into this repository; it would need to be added as a separate, independent module/toolchain if
+truly required.
 
 ---
 
@@ -71,15 +82,33 @@ it would need to be added as a separate, independent module/toolchain if truly r
 ./gradlew :fabric:1218:runClient
 ./gradlew :fabric:1201:runClient
 ./gradlew :neoforge:common:runClient
+./gradlew :forge:common:runClient
 ```
+
+### IntelliJ IDEA
+
+Open the repository root as a Gradle project (`File > Open`, pick the folder with `settings.gradle`).
+IntelliJ will pick up the pinned JDK 21 automatically from `gradle/gradle-daemon-jvm.properties`.
+Four ready-made run/debug configurations are checked in under `.idea/runConfigurations/` and will
+show up in the run configuration dropdown after the Gradle sync finishes:
+
+- **Fabric 1.20.1 Client**
+- **Fabric 1.21.8 Client**
+- **NeoForge Client**
+- **Forge Client**
+
+Each just runs that module's `runClient` Gradle task, so **Debug** works out of the box too.
 
 ---
 
 ## Configuration
 
-- `application.properties` — mod name/id/version/vendor metadata shared by every module.
+- `application.properties` — mod name/id/version/vendor metadata shared by every module, expanded
+  into `fabric.mod.json` / `neoforge.mods.toml` / `mods.toml` (Forge) at build time.
 - `gradle/libs.versions.toml` — dependency version catalog (Minecraft/Yarn/Loader/Fabric API/
-  NeoForge/Loom versions, etc).
+  NeoForge/Loom versions, etc). Forge's own Minecraft/mappings version is pinned directly in
+  `forge/common/build.gradle` and `build-logic/.../buildlogic.java-forge-conventions.gradle`
+  instead, since ForgeGradle's version-catalog integration is limited.
 
 Before publishing, choose a license (see below) and add real mod icon artwork at
 `common/impl/src/main/resources/icon.png` (currently a 1x1 placeholder).

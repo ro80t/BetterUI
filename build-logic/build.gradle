@@ -11,10 +11,15 @@ repositories {
         name = 'NeoForged'
         url = 'https://maven.neoforged.net/releases/'
     }
+    maven {
+        name = 'MinecraftForge'
+        url = 'https://maven.minecraftforge.net/'
+    }
     gradlePluginPortal()
 }
 
 dependencies {
     implementation libs.neoforge.gradle
     implementation libs.fabric.loom
+    implementation libs.forge.gradle
 }

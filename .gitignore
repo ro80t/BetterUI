@@ -15,7 +15,9 @@ runs
 */*/runs
 
 # IDE
-.idea
+.idea/*
+!.idea/runConfigurations
+!.idea/runConfigurations/*.xml
 .fleet
 .vscode
 *.ipr

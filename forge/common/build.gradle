@@ -1,0 +1,26 @@
+plugins {
+    id 'buildlogic.java-forge-conventions'
+    id 'buildlogic.java-module-conventions'
+}
+
+evaluationDependsOn(':common:api')
+evaluationDependsOn(':common:impl')
+
+repositories {
+    minecraft.mavenizer(it)
+    maven fg.forgeMaven
+    maven fg.minecraftLibsMaven
+}
+
+dependencies {
+    implementation minecraft.dependency('net.minecraftforge:forge:1.21.8-58.1.22')
+    annotationProcessor(variantOf(libs.mixin) { classifier('processor') })
+
+    implementation project(':common:api')
+    implementation project(':common:impl')
+}
+
+jar {
+    from(project(':common:api').sourceSets.main.output)
+    from(project(':common:impl').sourceSets.main.output)
+}
