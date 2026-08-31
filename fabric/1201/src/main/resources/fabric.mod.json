@@ -6,15 +6,15 @@
   "description": "${MOD_DESCRIPTION}",
   "authors": [],
   "contact": {
-    "sources": "https://github.com/YOUR_ACCOUNT/better-ui/",
-    "issues": "https://github.com/YOUR_ACCOUNT/better-ui/issues"
+    "sources": "https://github.com/ro80t/better-ui/",
+    "issues": "https://github.com/ro80t/better-ui/issues"
   },
   "license": "TODO-CHOOSE-A-LICENSE",
   "icon": "icon.png",
   "environment": "client",
   "entrypoints": {
     "main": [
-      "org.betterui.compat.fabric.common.FabricBetterUiModInitializer"
+      "com.ro80t.betterui.compat.fabric.common.FabricBetterUiModInitializer"
     ]
   },
   "mixins": [

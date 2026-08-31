@@ -1,6 +1,6 @@
 # BetterUI
 
-[![Build Status](https://github.com/YOUR_ACCOUNT/better-ui/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/YOUR_ACCOUNT/better-ui/actions/workflows/build.yml?query=branch:main)
+[![Build Status](https://github.com/ro80t/better-ui/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/ro80t/better-ui/actions/workflows/build.yml?query=branch:main)
 
 A client-side Mixin-based Minecraft mod that improves the vanilla UI/UX.
 
@@ -30,13 +30,13 @@ Every module is built from the **same branch**. Each `fabric/<version>` (and, in
 dependency versions, producing its own version-specific mod jar. `fabric/common` holds the code
 that does not depend on a specific Minecraft version (currently: detecting which Minecraft
 version is running at launch and picking the right per-version compat layer — see
-`org.betterui.compat.fabric.v1218.mixin.minecraft.MixinMain`).
+`com.ro80t.betterui.compat.fabric.v1218.mixin.minecraft.MixinMain`).
 
 ### Adding another Minecraft version
 
 1. Copy `fabric/1218` to `fabric/<newversion>` and update its `build.gradle` dependency versions
    (Minecraft, Yarn, Fabric Loader, Fabric API — see `gradle/libs.versions.toml`).
-2. Rename the Java packages (`org.betterui.compat.fabric.v<newversion>`) and the mixin/access
+2. Rename the Java packages (`com.ro80t.betterui.compat.fabric.v<newversion>`) and the mixin/access
    widener resource file names (`betterui.fabric.v<newversion>.*`).
 3. Register the new module in the root `settings.gradle`.
 4. Port (or reimplement) the concrete UI mixins for the new version's mappings — Mixin targets
@@ -81,9 +81,8 @@ it would need to be added as a separate, independent module/toolchain if truly r
 - `gradle/libs.versions.toml` — dependency version catalog (Minecraft/Yarn/Loader/Fabric API/
   NeoForge/Loom versions, etc).
 
-Before publishing, replace the `YOUR_ACCOUNT` placeholders in `application.properties`,
-`README.md`, and the loader `fabric.mod.json` / `neoforge.mods.toml` files, choose a license, and
-add real mod icon artwork at `common/impl/src/main/resources/icon.png` (currently a 1x1 placeholder).
+Before publishing, choose a license (see below) and add real mod icon artwork at
+`common/impl/src/main/resources/icon.png` (currently a 1x1 placeholder).
 
 ## License
 
