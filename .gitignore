@@ -8,8 +8,11 @@ build
 
 # Fabric Loom / NeoForge Gradle run directories
 run
+runs
 */run
+*/runs
 */*/run
+*/*/runs
 
 # IDE
 .idea
