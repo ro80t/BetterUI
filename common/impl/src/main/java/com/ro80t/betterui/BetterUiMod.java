@@ -4,6 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.UtilityClass;
 import com.ro80t.betterui.api.IBetterUiMod;
+import com.ro80t.betterui.impl.config.Config;
+import com.ro80t.betterui.impl.config.ConfigIo;
+
+import java.nio.file.Path;
 
 @UtilityClass
 public class BetterUiMod {
@@ -15,10 +19,21 @@ public class BetterUiMod {
     @Getter
     @Setter
     private static IBetterUiMod instance;
+    @Getter
+    private static Config config = new Config();
 
     static {
         BUILD_DATA = BuildData.getInstance();
         MOD_NAME = BUILD_DATA.getModName();
         MOD_ID = BUILD_DATA.getModId();
+    }
+
+    /**
+     * Loads (and, on first run, creates) {@code <configDir>/betterui.json}.
+     * Every loader entrypoint calls this once during its own init with its
+     * own notion of "the config directory".
+     */
+    public static void loadConfig(final Path configDir) {
+        config = ConfigIo.load(configDir.resolve(MOD_ID + ".json"));
     }
 }

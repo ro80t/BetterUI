@@ -12,6 +12,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import com.ro80t.betterui.BetterUiMod;
 import com.ro80t.betterui.api.IBetterUiMod;
@@ -21,6 +22,7 @@ import com.ro80t.betterui.api.IBetterUiMod;
 public final class NeoForgeBetterUiMod implements IBetterUiMod {
     public NeoForgeBetterUiMod(final IEventBus eventBus, final ModContainer modContainer) {
         BetterUiMod.setInstance(this);
+        BetterUiMod.loadConfig(FMLPaths.CONFIGDIR.get());
         eventBus.addListener(this::onInitialize);
     }
 

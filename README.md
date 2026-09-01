@@ -14,6 +14,11 @@ A client-side Mixin-based Minecraft mod that improves the vanilla UI/UX.
   vanilla method that already draws the stack-count/durability-bar overlay (`DrawContext#drawStackOverlay`
   / `#drawItemInSlot` on Fabric, `GuiGraphics#renderItemDecorations` on NeoForge/Forge), so it
   covers every screen automatically instead of having to hook each screen individually.
+- **Armor durability HUD** ([curseforge.com/.../durability-show](https://www.curseforge.com/minecraft/mc-mods/durability-show)-style)
+  — a small panel in the bottom-right corner of the screen listing each equipped armor piece's icon
+  and remaining durability (`current/max`), colored the same as vanilla's own durability bar. Hidden
+  automatically while any screen (inventory, chat, pause menu, ...) is open. Toggle it off via the
+  `durabilityHudEnabled` config key — see [Configuration](#configuration) below.
 - **Pause menu button** — a small example "BetterUI" button in the corner of the pause menu,
   demonstrating how to add a widget to a vanilla screen on each loader. Replace its press action
   with a real feature.
@@ -127,6 +132,23 @@ Each just runs that module's `runClient` Gradle task, so **Debug** works out of 
 
 Before publishing, choose a license (see below) and add real mod icon artwork at
 `common/impl/src/main/resources/icon.png` (currently a 1x1 placeholder).
+
+### Mod config file
+
+Each loader writes/reads `<game config dir>/betterui.json` on startup (Fabric:
+`FabricLoader.getConfigDir()`; NeoForge/Forge: `FMLPaths.CONFIGDIR`). A fresh install creates it
+with the defaults on first launch:
+
+```json
+{
+  "durabilityHudEnabled": true
+}
+```
+
+Set `durabilityHudEnabled` to `false` and restart the game to hide the armor durability HUD. The
+loading/saving logic lives in `com.ro80t.betterui.impl.config.ConfigIo` (loader-agnostic, in
+`common/impl`) — add new fields to `com.ro80t.betterui.impl.config.Config` the same way.
+There's no in-game settings screen (yet) — this is a plain JSON file you edit by hand.
 
 ## License
 

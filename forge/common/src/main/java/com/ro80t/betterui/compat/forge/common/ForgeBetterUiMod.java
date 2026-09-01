@@ -11,12 +11,14 @@ import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLPaths;
 
 @Slf4j
 @Mod("betterui")
 public final class ForgeBetterUiMod implements IBetterUiMod {
     public ForgeBetterUiMod(final FMLJavaModLoadingContext context) {
         BetterUiMod.setInstance(this);
+        BetterUiMod.loadConfig(FMLPaths.CONFIGDIR.get());
 
         log.info(BetterUiMod.MOD_NAME + " initializing...");
         log.info(BetterUiMod.MOD_NAME + " initialized");

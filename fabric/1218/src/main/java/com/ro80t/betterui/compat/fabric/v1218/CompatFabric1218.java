@@ -16,6 +16,8 @@ public class CompatFabric1218 implements ICompatFabric {
     public void init() {
         log.info("Initializing Fabric 1.21.8 compatibility layer...");
 
+        DurabilityHud.register();
+
         log.info("Successfully initialized Fabric 1.21.8 compatibility layer");
     }
 }

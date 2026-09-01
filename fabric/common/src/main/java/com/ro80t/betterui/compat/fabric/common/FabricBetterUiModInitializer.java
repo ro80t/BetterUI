@@ -2,6 +2,7 @@ package com.ro80t.betterui.compat.fabric.common;
 
 import lombok.extern.slf4j.Slf4j;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
 import com.ro80t.betterui.BetterUiMod;
 
 @Slf4j
@@ -13,6 +14,8 @@ public final class FabricBetterUiModInitializer implements ModInitializer {
     @Override
     public void onInitialize() {
         log.info(BetterUiMod.MOD_NAME + " initializing...");
+
+        BetterUiMod.loadConfig(FabricLoader.getInstance().getConfigDir());
 
         if (((IFabricBetterUiMod) BetterUiMod.getInstance()).getCompat() == null) {
             throw new UnsupportedOperationException("The version is not supported by " + BetterUiMod.MOD_NAME);
