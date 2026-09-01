@@ -6,6 +6,20 @@ A client-side Mixin-based Minecraft mod that improves the vanilla UI/UX.
 
 ---
 
+## Features
+
+- **Durability show** — draws the remaining durability of a damaged item as a small number in
+  the top-left corner of its slot icon (hotbar, inventory, anywhere an item is drawn), colored the
+  same as vanilla's own durability bar. Implemented on every loader by injecting into the single
+  vanilla method that already draws the stack-count/durability-bar overlay (`DrawContext#drawStackOverlay`
+  / `#drawItemInSlot` on Fabric, `GuiGraphics#renderItemDecorations` on NeoForge/Forge), so it
+  covers every screen automatically instead of having to hook each screen individually.
+- **Pause menu button** — a small example "BetterUI" button in the corner of the pause menu,
+  demonstrating how to add a widget to a vanilla screen on each loader. Replace its press action
+  with a real feature.
+
+---
+
 ## Project layout
 
 This repository follows a **single-branch, multi-version, multi-loader** layout, based on
@@ -34,11 +48,12 @@ Minecraft/mappings/loader dependency versions, producing its own version-specifi
 detecting which Minecraft version is running at launch and picking the right per-version compat
 layer — see `com.ro80t.betterui.compat.fabric.v1218.mixin.minecraft.MixinMain`).
 
-Each loader wires up the example "add a button to the pause menu" UI feature the way that's
-idiomatic for it: Fabric and Forge both use a real Mixin injected into the game's vanilla
-pause-menu screen class; NeoForge uses its own `ScreenEvent.Init.Post` instead (NeoForge doesn't
-need raw Mixin for something this simple, and it keeps that module's wiring simpler). All three
-are real, verified-compiling examples — swap in your own feature in the same spot.
+Every loader (including NeoForge) has real, verified-compiling Mixin wiring — see the "durability
+show" feature above, implemented as a Mixin on all four modules. The pause-menu button is instead
+implemented the way that's idiomatic per loader: Fabric and Forge both use a Mixin injected into
+the vanilla pause-menu screen class, while NeoForge uses its own `ScreenEvent.Init.Post` (simpler,
+and doesn't need raw Mixin for something this small). Both approaches are real, working examples —
+swap in your own feature in the same spot.
 
 ### Adding another Minecraft version
 

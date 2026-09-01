@@ -11,6 +11,7 @@ dependencies {
     implementation project(':common:impl')
 
     implementation libs.neoforge.api.'1218'
+    annotationProcessor(variantOf(libs.mixin) { classifier('processor') })
 }
 
 jar {

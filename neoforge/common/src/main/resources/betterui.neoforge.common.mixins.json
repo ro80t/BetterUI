@@ -1,10 +1,9 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.ro80t.betterui.compat.forge.common.mixin",
+  "package": "com.ro80t.betterui.compat.neoforge.common.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "minecraft.MixinMain",
     "minecraft.MixinGuiGraphicsDurability"
   ]
 }

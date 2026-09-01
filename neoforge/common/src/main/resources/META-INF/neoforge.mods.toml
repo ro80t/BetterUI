@@ -15,6 +15,10 @@ authors = "TODO"
 description = '''${MOD_DESCRIPTION}'''
 
 
+[[mixins]]
+config = "betterui.neoforge.common.mixins.json"
+
+
 [[dependencies.${MOD_ID}]]
     modId = "neoforge"
     type = "required"
