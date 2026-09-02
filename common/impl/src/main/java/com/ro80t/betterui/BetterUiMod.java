@@ -21,6 +21,7 @@ public class BetterUiMod {
     private static IBetterUiMod instance;
     @Getter
     private static Config config = new Config();
+    private static Path configFile;
 
     static {
         BUILD_DATA = BuildData.getInstance();
@@ -34,6 +35,16 @@ public class BetterUiMod {
      * own notion of "the config directory".
      */
     public static void loadConfig(final Path configDir) {
-        config = ConfigIo.load(configDir.resolve(MOD_ID + ".json"));
+        configFile = configDir.resolve(MOD_ID + ".json");
+        config = ConfigIo.load(configFile);
+    }
+
+    /**
+     * Flips {@code durabilityHudEnabled} and immediately persists it, so
+     * in-game toggles (e.g. the pause menu button) survive a restart.
+     */
+    public static void toggleDurabilityHud() {
+        config.setDurabilityHudEnabled(!config.isDurabilityHudEnabled());
+        ConfigIo.save(config, configFile);
     }
 }

@@ -17,11 +17,11 @@ A client-side Mixin-based Minecraft mod that improves the vanilla UI/UX.
 - **Armor durability HUD** ([curseforge.com/.../durability-show](https://www.curseforge.com/minecraft/mc-mods/durability-show)-style)
   — a small panel in the bottom-right corner of the screen listing each equipped armor piece's icon
   and remaining durability (`current/max`), colored the same as vanilla's own durability bar. Hidden
-  automatically while any screen (inventory, chat, pause menu, ...) is open. Toggle it off via the
+  automatically while any screen (inventory, chat, pause menu, ...) is open. Backed by the
   `durabilityHudEnabled` config key — see [Configuration](#configuration) below.
-- **Pause menu button** — a small example "BetterUI" button in the corner of the pause menu,
-  demonstrating how to add a widget to a vanilla screen on each loader. Replace its press action
-  with a real feature.
+- **Pause menu "Durability HUD: ON/OFF" button** — toggles the armor durability HUD without
+  leaving the game. Pressing it flips `durabilityHudEnabled` and immediately rewrites the config
+  file (via `BetterUiMod.toggleDurabilityHud()`), so the change also survives a restart.
 
 ---
 
@@ -145,10 +145,13 @@ with the defaults on first launch:
 }
 ```
 
-Set `durabilityHudEnabled` to `false` and restart the game to hide the armor durability HUD. The
-loading/saving logic lives in `com.ro80t.betterui.impl.config.ConfigIo` (loader-agnostic, in
-`common/impl`) — add new fields to `com.ro80t.betterui.impl.config.Config` the same way.
-There's no in-game settings screen (yet) — this is a plain JSON file you edit by hand.
+You can toggle `durabilityHudEnabled` either by hand-editing this file (restart required to pick
+up the change), or in-game via the "Durability HUD: ON/OFF" button on the pause menu, which flips
+the value and rewrites the file immediately — no restart needed. The loading/saving logic lives in
+`com.ro80t.betterui.impl.config.ConfigIo` (loader-agnostic, in `common/impl`); the in-game toggle
+is `BetterUiMod.toggleDurabilityHud()`. Add new fields to `com.ro80t.betterui.impl.config.Config`
+and wire up a similar toggle the same way. There's no full in-game settings *screen* (yet) — just
+this one button plus the JSON file.
 
 ## License
 

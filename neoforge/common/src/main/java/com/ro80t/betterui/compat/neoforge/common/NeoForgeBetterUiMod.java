@@ -39,9 +39,8 @@ public final class NeoForgeBetterUiMod implements IBetterUiMod {
         }
 
         /**
-         * Example UI-improvement handler: adds a small "BetterUI" button to the
-         * bottom-left corner of the pause menu. Replace the press action with a
-         * real feature.
+         * Adds a pause menu button that toggles the armor durability HUD on/off
+         * and immediately persists the change to the config file.
          */
         @SubscribeEvent
         public static void onScreenInit(final ScreenEvent.Init.Post event) {
@@ -49,10 +48,17 @@ public final class NeoForgeBetterUiMod implements IBetterUiMod {
                 return;
             }
 
-            event.addListener(Button.builder(Component.literal("BetterUI"), button -> {
+            event.addListener(Button.builder(durabilityHudLabel(), button -> {
+                        BetterUiMod.toggleDurabilityHud();
+                        button.setMessage(durabilityHudLabel());
                     })
-                    .bounds(4, screen.height - 24, 60, 20)
+                    .bounds(4, screen.height - 24, 150, 20)
                     .build());
+        }
+
+        private static Component durabilityHudLabel() {
+            final String state = BetterUiMod.getConfig().isDurabilityHudEnabled() ? "ON" : "OFF";
+            return Component.literal("Durability HUD: " + state);
         }
     }
 }
