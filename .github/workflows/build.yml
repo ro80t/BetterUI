@@ -41,6 +41,18 @@ jobs:
         with:
           name: betterui
           path: |
+            fabric/1165/build/libs/*.jar
+            fabric/1182/build/libs/*.jar
+            fabric/1192/build/libs/*.jar
             fabric/1201/build/libs/*.jar
+            fabric/1211/build/libs/*.jar
+            fabric/1214/build/libs/*.jar
             fabric/1218/build/libs/*.jar
-            neoforge/common/build/libs/*.jar
+            forge/1201/build/libs/*.jar
+            forge/1211/build/libs/*.jar
+            forge/1214/build/libs/*.jar
+            forge/1218/build/libs/*.jar
+            neoforge/1204/build/libs/*.jar
+            neoforge/1211/build/libs/*.jar
+            neoforge/1214/build/libs/*.jar
+            neoforge/1218/build/libs/*.jar

@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation minecraft.dependency('net.minecraftforge:forge:1.21.8-58.1.22')
+    implementation minecraft.dependency("net.minecraftforge:forge:${libs.versions.forge.'1214'.get()}")
     annotationProcessor(variantOf(libs.mixin) { classifier('processor') })
 
     implementation project(':common:api')

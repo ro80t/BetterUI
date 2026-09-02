@@ -12,11 +12,41 @@ forge-gradle = "7.0.36"
 # Mixin (used directly by the Forge module; Fabric/NeoForge pull Mixin in transitively)
 mixin = "0.8.7"
 
+# Minecraft Libraries: Fabric 1.16.5
+minecraft-1165 = "1.16.5"
+fabric-yarn-1165 = "1.16.5+build.10"
+fabric-loader-1165 = "0.19.3"
+fabric-api-1165 = "0.42.0+1.16"
+
+# Minecraft Libraries: Fabric 1.18.2
+minecraft-1182 = "1.18.2"
+fabric-yarn-1182 = "1.18.2+build.4"
+fabric-loader-1182 = "0.19.3"
+fabric-api-1182 = "0.77.0+1.18.2"
+
+# Minecraft Libraries: Fabric 1.19.2
+minecraft-1192 = "1.19.2"
+fabric-yarn-1192 = "1.19.2+build.28"
+fabric-loader-1192 = "0.19.3"
+fabric-api-1192 = "0.77.0+1.19.2"
+
 # Minecraft Libraries: Fabric 1.20.1
 minecraft-1201 = "1.20.1"
 fabric-yarn-1201 = "1.20.1+build.10"
 fabric-loader-1201 = "0.19.3"
 fabric-api-1201 = "0.92.11+1.20.1"
+
+# Minecraft Libraries: Fabric 1.21.1
+minecraft-1211 = "1.21.1"
+fabric-yarn-1211 = "1.21.1+build.3"
+fabric-loader-1211 = "0.19.3"
+fabric-api-1211 = "0.116.17+1.21.1"
+
+# Minecraft Libraries: Fabric 1.21.4
+minecraft-1214 = "1.21.4"
+fabric-yarn-1214 = "1.21.4+build.8"
+fabric-loader-1214 = "0.19.3"
+fabric-api-1214 = "0.119.4+1.21.4"
 
 # Minecraft Libraries: Fabric 1.21.8
 minecraft-1218 = "1.21.8"
@@ -24,10 +54,16 @@ fabric-yarn-1218 = "1.21.8+build.1"
 fabric-loader-1218 = "0.19.3"
 fabric-api-1218 = "0.136.1+1.21.8"
 
-# Minecraft Libraries: NeoForge 1.21.8
+# Minecraft Libraries: NeoForge (NeoForge does not support 1.20.1; 1.20.4 is the closest supported release)
+neoforge-api-1204 = "20.4.251"
+neoforge-api-1211 = "21.1.249"
+neoforge-api-1214 = "21.4.157"
 neoforge-api-1218 = "21.8.54"
 
-# Minecraft Libraries: Forge 1.21.8
+# Minecraft Libraries: Forge
+forge-1201 = "1.20.1-47.4.23"
+forge-1211 = "1.21.1-52.1.16"
+forge-1214 = "1.21.4-54.1.18"
 forge-1218 = "1.21.8-58.1.22"
 
 
@@ -44,11 +80,41 @@ forge-gradle = { module = "net.minecraftforge.gradle:net.minecraftforge.gradle.g
 
 mixin = { module = "org.spongepowered:mixin", version.ref = "mixin" }
 
+# Minecraft Libraries: Fabric 1.16.5
+minecraft-1165 = { module = "org.mojang:minecraft", version.ref = "minecraft-1165" }
+fabric-yarn-1165 = { module = "net.fabricmc:yarn", version.ref = "fabric-yarn-1165" }
+fabric-loader-1165 = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader-1165" }
+fabric-api-1165 = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api-1165" }
+
+# Minecraft Libraries: Fabric 1.18.2
+minecraft-1182 = { module = "org.mojang:minecraft", version.ref = "minecraft-1182" }
+fabric-yarn-1182 = { module = "net.fabricmc:yarn", version.ref = "fabric-yarn-1182" }
+fabric-loader-1182 = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader-1182" }
+fabric-api-1182 = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api-1182" }
+
+# Minecraft Libraries: Fabric 1.19.2
+minecraft-1192 = { module = "org.mojang:minecraft", version.ref = "minecraft-1192" }
+fabric-yarn-1192 = { module = "net.fabricmc:yarn", version.ref = "fabric-yarn-1192" }
+fabric-loader-1192 = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader-1192" }
+fabric-api-1192 = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api-1192" }
+
 # Minecraft Libraries: Fabric 1.20.1
 minecraft-1201 = { module = "org.mojang:minecraft", version.ref = "minecraft-1201" }
 fabric-yarn-1201 = { module = "net.fabricmc:yarn", version.ref = "fabric-yarn-1201" }
 fabric-loader-1201 = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader-1201" }
 fabric-api-1201 = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api-1201" }
+
+# Minecraft Libraries: Fabric 1.21.1
+minecraft-1211 = { module = "org.mojang:minecraft", version.ref = "minecraft-1211" }
+fabric-yarn-1211 = { module = "net.fabricmc:yarn", version.ref = "fabric-yarn-1211" }
+fabric-loader-1211 = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader-1211" }
+fabric-api-1211 = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api-1211" }
+
+# Minecraft Libraries: Fabric 1.21.4
+minecraft-1214 = { module = "org.mojang:minecraft", version.ref = "minecraft-1214" }
+fabric-yarn-1214 = { module = "net.fabricmc:yarn", version.ref = "fabric-yarn-1214" }
+fabric-loader-1214 = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader-1214" }
+fabric-api-1214 = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api-1214" }
 
 # Minecraft Libraries: Fabric 1.21.8
 minecraft-1218 = { module = "org.mojang:minecraft", version.ref = "minecraft-1218" }
@@ -56,5 +122,8 @@ fabric-yarn-1218 = { module = "net.fabricmc:yarn", version.ref = "fabric-yarn-12
 fabric-loader-1218 = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader-1218" }
 fabric-api-1218 = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api-1218" }
 
-# Minecraft Libraries: NeoForge 1.21.8
+# Minecraft Libraries: NeoForge
+neoforge-api-1204 = { module = "net.neoforged:neoforge", version.ref = "neoforge-api-1204" }
+neoforge-api-1211 = { module = "net.neoforged:neoforge", version.ref = "neoforge-api-1211" }
+neoforge-api-1214 = { module = "net.neoforged:neoforge", version.ref = "neoforge-api-1214" }
 neoforge-api-1218 = { module = "net.neoforged:neoforge", version.ref = "neoforge-api-1218" }

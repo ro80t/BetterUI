@@ -1,0 +1,34 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "TODO-CHOOSE-A-LICENSE"
+
+
+[[mods]]
+modId = "${MOD_ID}"
+version = "${MOD_VERSION}"
+displayName = "${MOD_NAME}"
+logoFile = "icon.png"
+ordering = "NONE"
+side = "CLIENT"
+
+authors = "TODO"
+description = '''${MOD_DESCRIPTION}'''
+
+
+[[mixins]]
+config = "betterui.neoforge.common.mixins.json"
+
+
+[[dependencies.${MOD_ID}]]
+    modId = "neoforge"
+    type = "required"
+    versionRange = ">=21.4"
+    ordering = "NONE"
+    side = "CLIENT"
+
+[[dependencies.${MOD_ID}]]
+    modId = "minecraft"
+    type = "required"
+    versionRange = "=1.21.4"
+    ordering = "NONE"
+    side = "CLIENT"

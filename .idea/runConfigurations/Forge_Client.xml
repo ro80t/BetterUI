@@ -10,7 +10,7 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value=":forge:common:runClient" />
+          <option value=":forge:1218:runClient" />
         </list>
       </option>
       <option name="vmOptions" value="" />

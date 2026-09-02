@@ -27,12 +27,23 @@ rootProject.name = 'BetterUI'
 include(':common:api', ':common:impl')
 include(
         ':fabric:common',
+        ':fabric:1165',
+        ':fabric:1182',
+        ':fabric:1192',
         ':fabric:1201',
+        ':fabric:1211',
+        ':fabric:1214',
         ':fabric:1218'
 )
 include(
-        ':neoforge:common',
+        ':neoforge:1204',
+        ':neoforge:1211',
+        ':neoforge:1214',
+        ':neoforge:1218',
 )
 include(
-        ':forge:common',
+        ':forge:1201',
+        ':forge:1211',
+        ':forge:1214',
+        ':forge:1218',
 )

@@ -1,0 +1,32 @@
+plugins {
+    id 'buildlogic.java-neoforge-conventions'
+    id 'buildlogic.java-module-conventions'
+}
+
+evaluationDependsOn(':common:api')
+evaluationDependsOn(':common:impl')
+
+dependencies {
+    implementation project(':common:api')
+    implementation project(':common:impl')
+
+    implementation libs.neoforge.api.'1211'
+    annotationProcessor(variantOf(libs.mixin) { classifier('processor') })
+}
+
+jar {
+    from(project(':common:api').sourceSets.main.output)
+    from(project(':common:impl').sourceSets.main.output)
+}
+
+minecraft {
+    accessTransformers {
+        file('src/main/resources/betterui.neoforge.common.accesstransformer')
+    }
+}
+
+runs {
+    client {
+        modSource project.sourceSets.main
+    }
+}

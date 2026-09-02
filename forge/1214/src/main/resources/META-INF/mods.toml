@@ -1,0 +1,25 @@
+modLoader = "javafml"
+loaderVersion = "[0,)"
+license = "TODO-CHOOSE-A-LICENSE"
+
+[[mods]]
+modId = "${MOD_ID}"
+version = "${MOD_VERSION}"
+displayName = "${MOD_NAME}"
+logoFile = "icon.png"
+authors = "TODO"
+description = '''${MOD_DESCRIPTION}'''
+
+[[dependencies.${MOD_ID}]]
+    modId = "forge"
+    mandatory = true
+    versionRange = "[54,)"
+    ordering = "NONE"
+    side = "CLIENT"
+
+[[dependencies.${MOD_ID}]]
+    modId = "minecraft"
+    mandatory = true
+    versionRange = "[1.21.4,1.21.5)"
+    ordering = "NONE"
+    side = "CLIENT"
