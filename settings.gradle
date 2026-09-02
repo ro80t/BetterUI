@@ -22,7 +22,7 @@ plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
 }
 
-rootProject.name = 'better-ui'
+rootProject.name = 'BetterUI'
 
 include(':common:api', ':common:impl')
 include(
