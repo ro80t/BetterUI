@@ -2,7 +2,6 @@ package com.ro80t.betterui.compat.forge.common;
 
 import com.ro80t.betterui.BetterUiMod;
 import com.ro80t.betterui.api.IBetterUiMod;
-import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.network.chat.Component;
@@ -13,15 +12,14 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 
-@Slf4j
+/**
+ * Kept separate from {@code forge:common} because Forge's EventBus 7 rewrite
+ * moved {@code SubscribeEvent} to a new package starting with this version.
+ */
 @Mod("betterui")
 public final class ForgeBetterUiMod implements IBetterUiMod {
     public ForgeBetterUiMod(final FMLJavaModLoadingContext context) {
-        BetterUiMod.setInstance(this);
-        BetterUiMod.loadConfig(FMLPaths.CONFIGDIR.get());
-
-        log.info(BetterUiMod.MOD_NAME + " initializing...");
-        log.info(BetterUiMod.MOD_NAME + " initialized");
+        BetterUiMod.initialize(this, FMLPaths.CONFIGDIR.get());
     }
 
     @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = "betterui", bus = Mod.EventBusSubscriber.Bus.FORGE)

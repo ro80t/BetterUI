@@ -5,10 +5,12 @@ plugins {
 
 evaluationDependsOn(':common:api')
 evaluationDependsOn(':common:impl')
+evaluationDependsOn(':common:mcoverlay')
 
 dependencies {
     implementation project(':common:api')
     implementation project(':common:impl')
+    implementation project(':common:mcoverlay')
 
     implementation libs.neoforge.api.'1204'
     annotationProcessor(variantOf(libs.mixin) { classifier('processor') })
@@ -17,6 +19,11 @@ dependencies {
 jar {
     from(project(':common:api').sourceSets.main.output)
     from(project(':common:impl').sourceSets.main.output)
+    from(project(':common:mcoverlay').sourceSets.main.output)
+}
+
+tasks.named('compileJava') {
+    dependsOn(project(':common:mcoverlay').tasks.named('processResources'))
 }
 
 minecraft {

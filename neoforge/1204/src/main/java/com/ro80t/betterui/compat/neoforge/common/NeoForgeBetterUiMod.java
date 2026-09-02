@@ -1,6 +1,7 @@
 package com.ro80t.betterui.compat.neoforge.common;
 
-import lombok.extern.slf4j.Slf4j;
+import com.ro80t.betterui.BetterUiMod;
+import com.ro80t.betterui.api.IBetterUiMod;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.network.chat.Component;
@@ -9,25 +10,18 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.client.event.ScreenEvent;
-import com.ro80t.betterui.BetterUiMod;
-import com.ro80t.betterui.api.IBetterUiMod;
 
-@Slf4j
+/**
+ * Kept separate from {@code neoforge:common} because this early NeoForge
+ * version predates the flat {@code @EventBusSubscriber} annotation and still
+ * needs the Forge-style nested {@code @Mod.EventBusSubscriber}.
+ */
 @Mod("betterui")
 public final class NeoForgeBetterUiMod implements IBetterUiMod {
     public NeoForgeBetterUiMod(final IEventBus eventBus, final ModContainer modContainer) {
-        BetterUiMod.setInstance(this);
-        BetterUiMod.loadConfig(FMLPaths.CONFIGDIR.get());
-        eventBus.addListener(this::onInitialize);
-    }
-
-    public void onInitialize(final FMLCommonSetupEvent event) {
-        log.info(BetterUiMod.MOD_NAME + " initializing...");
-
-        log.info(BetterUiMod.MOD_NAME + " initialized");
+        BetterUiMod.initialize(this, FMLPaths.CONFIGDIR.get());
     }
 
     @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = "betterui", bus = Mod.EventBusSubscriber.Bus.FORGE)

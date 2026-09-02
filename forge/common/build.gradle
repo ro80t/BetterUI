@@ -1,0 +1,25 @@
+plugins {
+    id 'buildlogic.java-forge-conventions'
+    id 'buildlogic.java-module-conventions'
+}
+
+evaluationDependsOn(':common:api')
+evaluationDependsOn(':common:impl')
+
+repositories {
+    minecraft.mavenizer(it)
+    maven fg.forgeMaven
+    maven fg.minecraftLibsMaven
+}
+
+dependencies {
+    // Compiled against the oldest of the three consumers (1201/1211/1214)
+    // that still use the pre-EventBus-7 net.minecraftforge.eventbus.api
+    // package. 1218 moved SubscribeEvent to a new package and keeps its own
+    // copy of this class instead of depending on this module.
+    compileOnly minecraft.dependency("net.minecraftforge:forge:${libs.versions.forge.'1201'.get()}")
+    annotationProcessor(variantOf(libs.mixin) { classifier('processor') })
+
+    implementation project(':common:api')
+    implementation project(':common:impl')
+}

@@ -5,6 +5,8 @@ plugins {
 
 evaluationDependsOn(':common:api')
 evaluationDependsOn(':common:impl')
+evaluationDependsOn(':common:mcoverlay')
+evaluationDependsOn(':forge:common')
 
 repositories {
     minecraft.mavenizer(it)
@@ -18,9 +20,18 @@ dependencies {
 
     implementation project(':common:api')
     implementation project(':common:impl')
+    implementation project(':common:mcoverlay')
+    implementation project(':forge:common')
 }
 
 jar {
     from(project(':common:api').sourceSets.main.output)
     from(project(':common:impl').sourceSets.main.output)
+    from(project(':common:mcoverlay').sourceSets.main.output)
+    from(project(':forge:common').sourceSets.main.output)
+}
+
+tasks.named('compileJava') {
+    dependsOn(project(':common:mcoverlay').tasks.named('processResources'))
+    dependsOn(project(':forge:common').tasks.named('processResources'))
 }

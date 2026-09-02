@@ -1,0 +1,32 @@
+plugins {
+    id 'buildlogic.java-fabric-conventions'
+    id 'buildlogic.java-module-conventions'
+}
+
+evaluationDependsOn(':common:api')
+evaluationDependsOn(':common:impl')
+
+dependencies {
+    // Compiled against 1211. Fabric Loom remaps every class embedded in a
+    // jar using that project's own mappings, so anything referencing
+    // DrawContext must never be embedded into a pre-1.20 module (1165/1182/
+    // 1192) whose mappings don't have that class at all - hence this being
+    // its own module instead of living in the universal fabric:common.
+    // 1201 also depends on this module for ArmorDurabilityOverlay (its own
+    // DrawContext methods are unaffected by the drawStackOverlay rename)
+    // but keeps its own copy of the Mixin, whose target method name differs.
+    minecraft libs.minecraft.'1211'
+    mappings(variantOf(libs.fabric.yarn.'1211') {
+        classifier('v2')
+    })
+    modImplementation libs.fabric.loader.'1211'
+    modImplementation libs.fabric.api.'1211'
+
+    implementation project(':common:api')
+    implementation project(':common:impl')
+}
+
+jar {
+    from(project(':common:api').sourceSets.main.output)
+    from(project(':common:impl').sourceSets.main.output)
+}

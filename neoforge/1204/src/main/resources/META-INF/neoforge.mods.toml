@@ -16,7 +16,7 @@ description = '''${MOD_DESCRIPTION}'''
 
 
 [[mixins]]
-config = "betterui.neoforge.common.mixins.json"
+config = "betterui.mcoverlay.mixins.json"
 
 
 [[dependencies.${MOD_ID}]]

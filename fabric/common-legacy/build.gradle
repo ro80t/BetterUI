@@ -1,0 +1,28 @@
+plugins {
+    id 'buildlogic.java-fabric-conventions'
+    id 'buildlogic.java-module-conventions'
+}
+
+evaluationDependsOn(':common:api')
+evaluationDependsOn(':common:impl')
+
+dependencies {
+    // Compiled against 1182, the older of the two consumers (1182/1192) that
+    // still use the pre-DrawContext MatrixStack rendering API and expose
+    // Item.getItemBarColor/isItemBarVisible. 1165 predates both of those and
+    // keeps its own standalone copy.
+    minecraft libs.minecraft.'1182'
+    mappings(variantOf(libs.fabric.yarn.'1182') {
+        classifier('v2')
+    })
+    modImplementation libs.fabric.loader.'1182'
+    modImplementation libs.fabric.api.'1182'
+
+    implementation project(':common:api')
+    implementation project(':common:impl')
+}
+
+jar {
+    from(project(':common:api').sourceSets.main.output)
+    from(project(':common:impl').sourceSets.main.output)
+}

@@ -24,9 +24,11 @@ plugins {
 
 rootProject.name = 'BetterUI'
 
-include(':common:api', ':common:impl')
+include(':common:api', ':common:impl', ':common:mcoverlay')
 include(
         ':fabric:common',
+        ':fabric:common-legacy',
+        ':fabric:common-drawcontext',
         ':fabric:1165',
         ':fabric:1182',
         ':fabric:1192',
@@ -36,12 +38,14 @@ include(
         ':fabric:1218'
 )
 include(
+        ':neoforge:common',
         ':neoforge:1204',
         ':neoforge:1211',
         ':neoforge:1214',
         ':neoforge:1218',
 )
 include(
+        ':forge:common',
         ':forge:1201',
         ':forge:1211',
         ':forge:1214',

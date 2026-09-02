@@ -19,6 +19,7 @@
   },
   "mixins": [
     "betterui.fabric.common.mixins.json",
+    "betterui.fabric.common-drawcontext.mixins.json",
     "betterui.fabric.v1218.mixins.json"
   ],
   "depends": {

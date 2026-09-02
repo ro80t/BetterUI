@@ -3,12 +3,14 @@ package com.ro80t.betterui;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import com.ro80t.betterui.api.IBetterUiMod;
 import com.ro80t.betterui.impl.config.Config;
 import com.ro80t.betterui.impl.config.ConfigIo;
 
 import java.nio.file.Path;
 
+@Slf4j
 @UtilityClass
 public class BetterUiMod {
     public static final String MOD_NAME;
@@ -37,6 +39,20 @@ public class BetterUiMod {
     public static void loadConfig(final Path configDir) {
         configFile = configDir.resolve(MOD_ID + ".json");
         config = ConfigIo.load(configFile);
+    }
+
+    /**
+     * One-shot mod bootstrap shared by every loader entrypoint: records the
+     * mod instance, loads the config from {@code configDir}, and logs the
+     * same "initializing.../initialized" pair every loader used to repeat
+     * individually.
+     */
+    public static void initialize(final IBetterUiMod modInstance, final Path configDir) {
+        setInstance(modInstance);
+
+        log.info(MOD_NAME + " initializing...");
+        loadConfig(configDir);
+        log.info(MOD_NAME + " initialized");
     }
 
     /**

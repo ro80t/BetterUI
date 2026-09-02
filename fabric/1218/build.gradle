@@ -6,6 +6,7 @@ plugins {
 evaluationDependsOn(':common:api')
 evaluationDependsOn(':common:impl')
 evaluationDependsOn(':fabric:common')
+evaluationDependsOn(':fabric:common-drawcontext')
 
 dependencies {
     minecraft libs.minecraft.'1218'
@@ -21,10 +22,15 @@ dependencies {
         exclude group: 'net.fabricmc'
         exclude group: 'net.fabricmc.fabric-api'
     }
+    implementation(project(':fabric:common-drawcontext')) {
+        exclude group: 'net.fabricmc'
+        exclude group: 'net.fabricmc.fabric-api'
+    }
 }
 
 jar {
     from(project(':common:api').sourceSets.main.output)
     from(project(':common:impl').sourceSets.main.output)
     from(project(':fabric:common').sourceSets.main.output)
+    from(project(':fabric:common-drawcontext').sourceSets.main.output)
 }

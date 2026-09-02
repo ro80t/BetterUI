@@ -1,0 +1,26 @@
+plugins {
+    id 'buildlogic.java-forge-conventions'
+    id 'buildlogic.java-module-conventions'
+}
+
+evaluationDependsOn(':common:api')
+evaluationDependsOn(':common:impl')
+
+repositories {
+    minecraft.mavenizer(it)
+    maven fg.forgeMaven
+    maven fg.minecraftLibsMaven
+}
+
+dependencies {
+    // Compiled once against the oldest supported Forge version purely to get
+    // official-mapped vanilla Minecraft classes (GuiGraphics, Minecraft, Font,
+    // ...). Never references net.minecraftforge.* classes, so the resulting
+    // classes are just as valid under NeoForge or a newer Forge - see the
+    // module Javadoc for why this is safe to share across both loaders.
+    compileOnly minecraft.dependency("net.minecraftforge:forge:${libs.versions.forge.'1201'.get()}")
+    annotationProcessor(variantOf(libs.mixin) { classifier('processor') })
+
+    implementation project(':common:api')
+    implementation project(':common:impl')
+}

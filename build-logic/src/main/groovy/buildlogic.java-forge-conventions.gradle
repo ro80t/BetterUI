@@ -24,7 +24,7 @@ processResources {
 
 tasks.named('jar', Jar) {
     manifest {
-        attributes(['MixinConfigs': "${props.getProperty('id')}.forge.common.mixins.json"])
+        attributes(['MixinConfigs': "${props.getProperty('id')}.mcoverlay.mixins.json"])
     }
 }
 

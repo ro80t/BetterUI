@@ -1,0 +1,24 @@
+plugins {
+    id 'buildlogic.java-neoforge-conventions'
+    id 'buildlogic.java-module-conventions'
+}
+
+evaluationDependsOn(':common:api')
+evaluationDependsOn(':common:impl')
+evaluationDependsOn(':common:mcoverlay')
+
+dependencies {
+    implementation project(':common:api')
+    implementation project(':common:impl')
+    implementation project(':common:mcoverlay')
+
+    // Compiled against the oldest of the three consumers (1211/1214/1218)
+    // that use the flat @EventBusSubscriber annotation. 1204 predates it and
+    // keeps its own copy instead of depending on this module.
+    compileOnly libs.neoforge.api.'1211'
+    annotationProcessor(variantOf(libs.mixin) { classifier('processor') })
+}
+
+tasks.named('compileJava') {
+    dependsOn(project(':common:mcoverlay').tasks.named('processResources'))
+}
