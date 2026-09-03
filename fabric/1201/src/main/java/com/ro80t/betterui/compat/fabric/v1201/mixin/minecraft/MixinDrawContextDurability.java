@@ -42,7 +42,9 @@ public abstract class MixinDrawContextDurability {
 
         final MatrixStack matrices = self.getMatrices();
         matrices.push();
-        matrices.translate(x + 8.0F, y + 8.0F, 0.0F);
+        // Match vanilla's own item-count overlay: without this Z push, the text
+        // gets depth-tested behind the item's own 3D icon render and vanishes.
+        matrices.translate(x + 8.0F, y + 8.0F, 200.0F);
         matrices.scale(SCALE, SCALE, 1.0F);
         self.drawTextWithShadow(textRenderer, text, -textWidth / 2, 0, color);
         matrices.pop();

@@ -37,7 +37,9 @@ public abstract class MixinItemRendererDurability {
 
         final MatrixStack matrices = new MatrixStack();
         matrices.push();
-        matrices.translate(x + 8.0F, y + 8.0F, 0.0F);
+        // Match vanilla's own item-count overlay: without this Z push, the text
+        // gets depth-tested behind the item's own 3D icon render and vanishes.
+        matrices.translate(x + 8.0F, y + 8.0F, 200.0F);
         matrices.scale(SCALE, SCALE, 1.0F);
         textRenderer.drawWithShadow(matrices, text, -textWidth / 2F, 0, color);
         matrices.pop();

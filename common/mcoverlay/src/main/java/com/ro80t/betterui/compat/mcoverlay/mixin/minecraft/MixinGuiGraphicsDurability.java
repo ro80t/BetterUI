@@ -44,7 +44,9 @@ public abstract class MixinGuiGraphicsDurability {
         final int textWidth = font.width(text);
 
         self.pose().pushPose();
-        self.pose().translate(x + 8.0F, y + 8.0F, 0.0F);
+        // Match vanilla's own item-count overlay: without this Z push, the text
+        // gets depth-tested behind the item's own 3D icon render and vanishes.
+        self.pose().translate(x + 8.0F, y + 8.0F, 200.0F);
         self.pose().scale(SCALE, SCALE, 1.0F);
         self.drawString(font, text, -textWidth / 2, 0, color);
         self.pose().popPose();
