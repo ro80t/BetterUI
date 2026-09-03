@@ -13,14 +13,13 @@ import net.minecraft.world.item.ItemStack;
  * their remaining durability in the bottom-right corner of the screen.
  * Toggle with {@code durabilityHudEnabled} in the mod's config file.
  * <p>
- * Vanilla-only (no {@code net.minecraftforge}/{@code net.neoforged} types),
- * so every Forge and NeoForge version except 1218 embeds this same compiled
- * class and only supplies the loader-specific event subscription that calls
- * {@link #render(GuiGraphics)}. 1218 uses {@code common:mcoverlay-v1218}'s
- * own copy instead, because {@code GuiGraphics.drawString(...)} changed its
- * return type from {@code int} to {@code void} in that version - a class
- * compiled against this module's 1.20.1 mappings would throw
- * {@code NoSuchMethodError} when run against 1.21.8's real class.
+ * Vanilla-only (no {@code net.minecraftforge}/{@code net.neoforged} types).
+ * Byte-identical to {@code common:mcoverlay}'s copy, but compiled separately
+ * against 1.21.8 mappings because {@code GuiGraphics.drawString(...)} changed
+ * its return type from {@code int} to {@code void} in that version, which is
+ * a binary-incompatible change: a class compiled against the older signature
+ * throws {@code NoSuchMethodError} when run against the newer one, and vice
+ * versa. Used only by the 1218 Forge/NeoForge modules.
  */
 public final class ArmorDurabilityOverlay {
     private static final EquipmentSlot[] ARMOR_SLOTS_BOTTOM_UP = {

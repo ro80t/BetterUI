@@ -1,0 +1,24 @@
+plugins {
+    id 'buildlogic.java-forge-conventions'
+    id 'buildlogic.java-module-conventions'
+}
+
+evaluationDependsOn(':common:api')
+evaluationDependsOn(':common:impl')
+
+repositories {
+    minecraft.mavenizer(it)
+    maven fg.forgeMaven
+    maven fg.minecraftLibsMaven
+}
+
+dependencies {
+    // Same source as common:mcoverlay, recompiled against 1.21.8 official
+    // mappings specifically because GuiGraphics.drawString(...) changed its
+    // return type from int to void in this version - see the module Javadoc.
+    compileOnly minecraft.dependency("net.minecraftforge:forge:${libs.versions.forge.'1218'.get()}")
+    annotationProcessor(variantOf(libs.mixin) { classifier('processor') })
+
+    implementation project(':common:api')
+    implementation project(':common:impl')
+}

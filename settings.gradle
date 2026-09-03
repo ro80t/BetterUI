@@ -24,7 +24,7 @@ plugins {
 
 rootProject.name = 'BetterUI'
 
-include(':common:api', ':common:impl', ':common:mcoverlay')
+include(':common:api', ':common:impl', ':common:mcoverlay', ':common:mcoverlay-v1218')
 include(
         ':fabric:common',
         ':fabric:common-legacy',

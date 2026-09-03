@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Forge Client" type="GradleRunConfiguration" factoryName="Gradle">
+  <configuration default="false" name="NeoForge 1.21.4 Client" type="GradleRunConfiguration" factoryName="Gradle">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -10,7 +10,7 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value=":forge:1218:runClient" />
+          <option value=":neoforge:1214:runClient" />
         </list>
       </option>
       <option name="vmOptions" value="" />

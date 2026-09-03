@@ -14,9 +14,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * top-left corner of every rendered item slot (hotbar, inventory, etc.),
  * colored the same as vanilla's own durability bar.
  * <p>
- * Vanilla-only, shared unchanged by every Forge and NeoForge version except
- * 1218, which uses {@code common:mcoverlay-v1218}'s own copy - see
- * {@link com.ro80t.betterui.compat.mcoverlay.ArmorDurabilityOverlay} for why.
+ * Byte-identical to {@code common:mcoverlay}'s copy, but compiled separately
+ * against 1.21.8 mappings - see {@link com.ro80t.betterui.compat.mcoverlay.ArmorDurabilityOverlay}
+ * for why. Used only by the 1218 Forge/NeoForge modules.
  */
 @Mixin(value = GuiGraphics.class, remap = false)
 public abstract class MixinGuiGraphicsDurability {
