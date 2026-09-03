@@ -7,6 +7,12 @@ evaluationDependsOn(':common:api')
 evaluationDependsOn(':common:impl')
 evaluationDependsOn(':fabric:common')
 
+// Reference the raw (named-mapped) sourceSets output directly instead of a
+// plain project(...) dependency: Loom projects publish their remapJar output
+// (intermediary-mapped) as the default consumable artifact, which is binary
+// incompatible with the named classes these modules were compiled against.
+def fabricCommonOutput = project(':fabric:common').sourceSets.main.output
+
 dependencies {
     minecraft libs.minecraft.'1165'
     mappings(variantOf(libs.fabric.yarn.'1165') {
@@ -18,10 +24,7 @@ dependencies {
     implementation libs.slf4j
     implementation project(':common:api')
     implementation project(':common:impl')
-    implementation(project(':fabric:common')) {
-        exclude group: 'net.fabricmc'
-        exclude group: 'net.fabricmc.fabric-api'
-    }
+    implementation fabricCommonOutput
 }
 
 jar {
