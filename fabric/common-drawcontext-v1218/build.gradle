@@ -1,0 +1,28 @@
+plugins {
+    id 'buildlogic.java-fabric-conventions'
+    id 'buildlogic.java-module-conventions'
+}
+
+evaluationDependsOn(':common:api')
+evaluationDependsOn(':common:impl')
+
+dependencies {
+    // Same source as fabric:common-drawcontext, recompiled against 1218's
+    // own mappings specifically because DrawContext.drawTextWithShadow(...)
+    // changed its return type from int to void in that version - see the
+    // module Javadoc.
+    minecraft libs.minecraft.'1218'
+    mappings(variantOf(libs.fabric.yarn.'1218') {
+        classifier('v2')
+    })
+    modImplementation libs.fabric.loader.'1218'
+    modImplementation libs.fabric.api.'1218'
+
+    implementation project(':common:api')
+    implementation project(':common:impl')
+}
+
+jar {
+    from(project(':common:api').sourceSets.main.output)
+    from(project(':common:impl').sourceSets.main.output)
+}

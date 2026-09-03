@@ -2,6 +2,7 @@ package com.ro80t.betterui.compat.fabric.commondrawcontext.mixin.minecraft;
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -10,16 +11,20 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * "Durability show": draws the remaining durability as a small number in the
- * top-left corner of every rendered item slot (hotbar, inventory, etc.),
- * colored the same as vanilla's own durability bar.
+ * "Durability show": draws the remaining durability as a small number,
+ * scaled down, just above the item's own durability bar in every rendered
+ * item slot (hotbar, inventory, etc.).
  * <p>
  * Shared by every Fabric version whose {@code DrawContext} names this method
- * {@code drawStackOverlay} (1211/1214/1218). 1201 still calls it
- * {@code drawItemInSlot} and keeps its own copy of this mixin.
+ * {@code drawStackOverlay} and still exposes {@code getMatrices()} as a
+ * {@code MatrixStack} (1211/1214). 1201 still calls it {@code drawItemInSlot}
+ * and keeps its own copy; 1218 switched {@code getMatrices()} to a JOML
+ * {@code Matrix3x2fStack} and keeps its own copy in {@code fabric:common-drawcontext-v1218}.
  */
 @Mixin(DrawContext.class)
 public abstract class MixinDrawContextDurability {
+    private static final float SCALE = 0.5F;
+
     @Inject(
             method = "drawStackOverlay(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V",
             at = @At("TAIL")
@@ -37,9 +42,15 @@ public abstract class MixinDrawContextDurability {
         }
 
         final DrawContext self = (DrawContext) (Object) this;
-        final int remaining = stack.getMaxDamage() - stack.getDamage();
+        final String text = String.valueOf(stack.getMaxDamage() - stack.getDamage());
         final int color = item.getItemBarColor(stack) | 0xFF000000;
+        final int textWidth = textRenderer.getWidth(text);
 
-        self.drawTextWithShadow(textRenderer, String.valueOf(remaining), x + 1, y + 1, color);
+        final MatrixStack matrices = self.getMatrices();
+        matrices.push();
+        matrices.translate(x + 8.0F, y + 8.0F, 0.0F);
+        matrices.scale(SCALE, SCALE, 1.0F);
+        self.drawTextWithShadow(textRenderer, text, -textWidth / 2, 0, color);
+        matrices.pop();
     }
 }

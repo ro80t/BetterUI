@@ -6,14 +6,14 @@ plugins {
 evaluationDependsOn(':common:api')
 evaluationDependsOn(':common:impl')
 evaluationDependsOn(':fabric:common')
-evaluationDependsOn(':fabric:common-drawcontext')
+evaluationDependsOn(':fabric:common-drawcontext-v1218')
 
 // Reference the raw (named-mapped) sourceSets output directly instead of a
 // plain project(...) dependency: Loom projects publish their remapJar output
 // (intermediary-mapped) as the default consumable artifact, which is binary
 // incompatible with the named classes these modules were compiled against.
 def fabricCommonOutput = project(':fabric:common').sourceSets.main.output
-def fabricCommonDrawContextOutput = project(':fabric:common-drawcontext').sourceSets.main.output
+def fabricCommonDrawContextOutput = project(':fabric:common-drawcontext-v1218').sourceSets.main.output
 
 dependencies {
     minecraft libs.minecraft.'1218'
@@ -33,5 +33,5 @@ jar {
     from(project(':common:api').sourceSets.main.output)
     from(project(':common:impl').sourceSets.main.output)
     from(project(':fabric:common').sourceSets.main.output)
-    from(project(':fabric:common-drawcontext').sourceSets.main.output)
+    from(project(':fabric:common-drawcontext-v1218').sourceSets.main.output)
 }

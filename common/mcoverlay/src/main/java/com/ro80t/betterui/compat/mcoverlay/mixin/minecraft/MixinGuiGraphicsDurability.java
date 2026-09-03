@@ -10,9 +10,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * "Durability show": draws the remaining durability as a small number in the
- * top-left corner of every rendered item slot (hotbar, inventory, etc.),
- * colored the same as vanilla's own durability bar.
+ * "Durability show": draws the remaining durability as a small number,
+ * scaled down, just above the item's own durability bar in every rendered
+ * item slot (hotbar, inventory, etc.).
  * <p>
  * Vanilla-only, shared unchanged by every Forge and NeoForge version except
  * 1218, which uses {@code common:mcoverlay-v1218}'s own copy - see
@@ -20,6 +20,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  */
 @Mixin(value = GuiGraphics.class, remap = false)
 public abstract class MixinGuiGraphicsDurability {
+    private static final float SCALE = 0.5F;
+
     @Inject(
             method = "renderItemDecorations(Lnet/minecraft/client/gui/Font;Lnet/minecraft/world/item/ItemStack;IILjava/lang/String;)V",
             at = @At("TAIL")
@@ -37,9 +39,14 @@ public abstract class MixinGuiGraphicsDurability {
         }
 
         final GuiGraphics self = (GuiGraphics) (Object) this;
-        final int remaining = stack.getMaxDamage() - stack.getDamageValue();
+        final String text = String.valueOf(stack.getMaxDamage() - stack.getDamageValue());
         final int color = item.getBarColor(stack) | 0xFF000000;
+        final int textWidth = font.width(text);
 
-        self.drawString(font, String.valueOf(remaining), x + 1, y + 1, color);
+        self.pose().pushPose();
+        self.pose().translate(x + 8.0F, y + 8.0F, 0.0F);
+        self.pose().scale(SCALE, SCALE, 1.0F);
+        self.drawString(font, text, -textWidth / 2, 0, color);
+        self.pose().popPose();
     }
 }

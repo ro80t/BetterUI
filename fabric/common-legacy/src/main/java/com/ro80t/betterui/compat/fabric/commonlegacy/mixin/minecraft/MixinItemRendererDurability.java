@@ -11,15 +11,17 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * "Durability show": draws the remaining durability as a small number in the
- * top-left corner of every rendered item slot (hotbar, inventory, etc.),
- * colored the same as vanilla's own durability bar.
+ * "Durability show": draws the remaining durability as a small number,
+ * scaled down, just above the item's own durability bar in every rendered
+ * item slot (hotbar, inventory, etc.).
  * <p>
  * Shared by 1182/1192; 1165 predates {@code Item.getItemBarColor} and keeps
  * its own copy with a manually computed color.
  */
 @Mixin(ItemRenderer.class)
 public abstract class MixinItemRendererDurability {
+    private static final float SCALE = 0.5F;
+
     @Inject(
             method = "renderGuiItemOverlay(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;II)V",
             at = @At("TAIL")
@@ -35,9 +37,15 @@ public abstract class MixinItemRendererDurability {
             return;
         }
 
-        final int remaining = stack.getMaxDamage() - stack.getDamage();
+        final String text = String.valueOf(stack.getMaxDamage() - stack.getDamage());
         final int color = item.getItemBarColor(stack) | 0xFF000000;
+        final int textWidth = textRenderer.getWidth(text);
 
-        textRenderer.drawWithShadow(new MatrixStack(), String.valueOf(remaining), x + 1, y + 1, color);
+        final MatrixStack matrices = new MatrixStack();
+        matrices.push();
+        matrices.translate(x + 8.0F, y + 8.0F, 0.0F);
+        matrices.scale(SCALE, SCALE, 1.0F);
+        textRenderer.drawWithShadow(matrices, text, -textWidth / 2F, 0, color);
+        matrices.pop();
     }
 }

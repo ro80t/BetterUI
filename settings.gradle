@@ -29,6 +29,7 @@ include(
         ':fabric:common',
         ':fabric:common-legacy',
         ':fabric:common-drawcontext',
+        ':fabric:common-drawcontext-v1218',
         ':fabric:1165',
         ':fabric:1182',
         ':fabric:1192',

@@ -4,22 +4,26 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.joml.Matrix3x2fStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * "Durability show": draws the remaining durability as a small number in the
- * top-left corner of every rendered item slot (hotbar, inventory, etc.),
- * colored the same as vanilla's own durability bar.
+ * "Durability show": draws the remaining durability as a small number,
+ * scaled down, just above the item's own durability bar in every rendered
+ * item slot (hotbar, inventory, etc.).
  * <p>
- * Byte-identical to {@code common:mcoverlay}'s copy, but compiled separately
- * against 1.21.8 mappings - see {@link com.ro80t.betterui.compat.mcoverlay.ArmorDurabilityOverlay}
+ * Byte-identical in intent to {@code common:mcoverlay}'s copy, but compiled
+ * separately against 1.21.8 mappings and using {@link Matrix3x2fStack}
+ * instead of {@code PoseStack} - see {@link com.ro80t.betterui.compat.mcoverlay.ArmorDurabilityOverlay}
  * for why. Used only by the 1218 Forge/NeoForge modules.
  */
 @Mixin(value = GuiGraphics.class, remap = false)
 public abstract class MixinGuiGraphicsDurability {
+    private static final float SCALE = 0.5F;
+
     @Inject(
             method = "renderItemDecorations(Lnet/minecraft/client/gui/Font;Lnet/minecraft/world/item/ItemStack;IILjava/lang/String;)V",
             at = @At("TAIL")
@@ -37,9 +41,15 @@ public abstract class MixinGuiGraphicsDurability {
         }
 
         final GuiGraphics self = (GuiGraphics) (Object) this;
-        final int remaining = stack.getMaxDamage() - stack.getDamageValue();
+        final String text = String.valueOf(stack.getMaxDamage() - stack.getDamageValue());
         final int color = item.getBarColor(stack) | 0xFF000000;
+        final int textWidth = font.width(text);
 
-        self.drawString(font, String.valueOf(remaining), x + 1, y + 1, color);
+        final Matrix3x2fStack matrices = self.pose();
+        matrices.pushMatrix();
+        matrices.translate(x + 8.0F, y + 8.0F);
+        matrices.scale(SCALE);
+        self.drawString(font, text, -textWidth / 2, 0, color);
+        matrices.popMatrix();
     }
 }
