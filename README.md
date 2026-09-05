@@ -1,7 +1,5 @@
 # BetterUI
 
-[![Build Status](https://github.com/ro80t/better-ui/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/ro80t/better-ui/actions/workflows/build.yml?query=branch:main)
-
 A client-side Mixin-based Minecraft mod that improves the vanilla UI/UX.
 
 ---
@@ -40,6 +38,17 @@ with the defaults on first launch:
 You can toggle `durabilityHudEnabled` either by hand-editing this file (restart required to pick
 up the change), or in-game via the "Durability HUD: ON/OFF" button on the pause menu, which flips
 the value and rewrites the file immediately — no restart needed.
+
+## Credits
+
+- [Durability Show](https://www.curseforge.com/minecraft/mc-mods/durability-show) — inspiration for
+  this mod's durability-display features (the per-slot number and the bottom-right armor panel),
+  with more planned in the same spirit. All due respect to its original author — go check out the
+  original if you haven't.
+- [Akazukin-Team/Mod-Template-Repository](https://github.com/Akazukin-Team/Mod-Template-Repository)
+  and [Akazukin-Team/Base-Plugin](https://github.com/Akazukin-Team/Base-Plugin) — referenced for
+  this mod's multi-version, multi-loader project structure. Respect to the Akazukin Team for the
+  template.
 
 ## License
 
