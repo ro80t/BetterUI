@@ -2,6 +2,8 @@ package com.ro80t.betterui.compat.neoforge.common;
 
 import com.ro80t.betterui.BetterUiMod;
 import com.ro80t.betterui.api.IBetterUiMod;
+import com.ro80t.betterui.compat.mcoverlay.BetterUiSettingsScreen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.network.chat.Component;
@@ -27,8 +29,7 @@ public final class NeoForgeBetterUiMod implements IBetterUiMod {
     @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = "betterui", bus = Mod.EventBusSubscriber.Bus.FORGE)
     public static class ClientModEvents {
         /**
-         * Adds a pause menu button that toggles the armor durability HUD on/off
-         * and immediately persists the change to the config file.
+         * Adds a pause menu button that opens the BetterUI settings screen.
          */
         @SubscribeEvent
         public static void onScreenInit(final ScreenEvent.Init.Post event) {
@@ -36,17 +37,10 @@ public final class NeoForgeBetterUiMod implements IBetterUiMod {
                 return;
             }
 
-            event.addListener(Button.builder(durabilityHudLabel(), button -> {
-                        BetterUiMod.toggleDurabilityHud();
-                        button.setMessage(durabilityHudLabel());
-                    })
+            event.addListener(Button.builder(Component.literal("BetterUI Settings"),
+                            button -> Minecraft.getInstance().setScreen(new BetterUiSettingsScreen(screen)))
                     .bounds(4, screen.height - 24, 150, 20)
                     .build());
-        }
-
-        private static Component durabilityHudLabel() {
-            final String state = BetterUiMod.getConfig().isDurabilityHudEnabled() ? "ON" : "OFF";
-            return Component.literal("Durability HUD: " + state);
         }
     }
 }

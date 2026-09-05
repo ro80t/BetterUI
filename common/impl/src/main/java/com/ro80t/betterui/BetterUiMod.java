@@ -9,6 +9,9 @@ import com.ro80t.betterui.impl.config.Config;
 import com.ro80t.betterui.impl.config.ConfigIo;
 
 import java.nio.file.Path;
+import java.util.List;
+import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
 
 @Slf4j
 @UtilityClass
@@ -56,11 +59,38 @@ public class BetterUiMod {
     }
 
     /**
-     * Flips {@code durabilityHudEnabled} and immediately persists it, so
-     * in-game toggles (e.g. the pause menu button) survive a restart.
+     * One on/off setting on the BetterUI settings screen: a human-readable
+     * label plus the getter/setter pair backing it in {@link Config}. Loader
+     * UI code builds one button per entry instead of hand-wiring each toggle.
      */
-    public static void toggleDurabilityHud() {
-        config.setDurabilityHudEnabled(!config.isDurabilityHudEnabled());
+    public record ToggleSetting(String label, BooleanSupplier getter, Consumer<Boolean> setter) {
+        public boolean isEnabled() {
+            return getter.getAsBoolean();
+        }
+
+        public void toggle() {
+            setter.accept(!isEnabled());
+        }
+    }
+
+    /**
+     * Every setting the BetterUI settings screen should show a toggle for.
+     * Add a new entry here (backed by a new {@link Config} field) and every
+     * loader's settings screen picks it up automatically.
+     */
+    public static List<ToggleSetting> toggleSettings() {
+        return List.of(
+                new ToggleSetting("Durability Show",
+                        () -> config.isDurabilityShowEnabled(),
+                        value -> betterui$setAndSave(config::setDurabilityShowEnabled, value)),
+                new ToggleSetting("Durability HUD",
+                        () -> config.isDurabilityHudEnabled(),
+                        value -> betterui$setAndSave(config::setDurabilityHudEnabled, value))
+        );
+    }
+
+    private static void betterui$setAndSave(final Consumer<Boolean> fieldSetter, final boolean value) {
+        fieldSetter.accept(value);
         ConfigIo.save(config, configFile);
     }
 }

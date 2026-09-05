@@ -111,6 +111,15 @@ Before publishing, choose a license (see the README) and add real mod icon artwo
 ## Extending the mod config
 
 The loading/saving logic lives in `com.ro80t.betterui.impl.config.ConfigIo` (loader-agnostic, in
-`common/impl`); the in-game toggle is `BetterUiMod.toggleDurabilityHud()`. Add new fields to
-`com.ro80t.betterui.impl.config.Config` and wire up a similar toggle the same way. There's no full
-in-game settings *screen* (yet) — just the one pause-menu button plus the JSON file.
+`common/impl`). To add a new on/off setting:
+
+1. Add a boolean field (with a default) to `com.ro80t.betterui.impl.config.Config`.
+2. Add a `BetterUiMod.ToggleSetting` entry for it in `BetterUiMod.toggleSettings()`, pointing at
+   the new field's getter/setter.
+
+Every loader's BetterUI settings screen (opened via the "BetterUI Settings" pause-menu button)
+builds its button list from `toggleSettings()` automatically, so no per-loader UI code needs to
+change. The screen itself is a small vanilla `Screen` subclass named `BetterUiSettingsScreen`:
+shared across Forge/NeoForge via `common:mcoverlay` (+ `common:mcoverlay-v1218` for 1218), and kept
+as a separate copy per Fabric version (matching how `MixinGameMenuScreen`, which opens it, is
+already per-version) since the `ButtonWidget`/`Text` construction API differs across Fabric eras.

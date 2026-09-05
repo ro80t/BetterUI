@@ -1,5 +1,6 @@
 package com.ro80t.betterui.compat.fabric.v1165.mixin.minecraft;
 
+import com.ro80t.betterui.BetterUiMod;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -25,6 +26,10 @@ public abstract class MixinItemRendererDurability {
     )
     private void betterui$drawDurability(final TextRenderer textRenderer, final ItemStack stack,
                                           final int x, final int y, final CallbackInfo ci) {
+        if (!BetterUiMod.getConfig().isDurabilityShowEnabled()) {
+            return;
+        }
+
         if (stack.isEmpty() || !stack.isDamaged()) {
             return;
         }

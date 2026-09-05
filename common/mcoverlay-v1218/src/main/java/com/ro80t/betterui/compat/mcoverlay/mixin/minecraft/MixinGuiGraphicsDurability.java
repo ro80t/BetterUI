@@ -1,5 +1,6 @@
 package com.ro80t.betterui.compat.mcoverlay.mixin.minecraft;
 
+import com.ro80t.betterui.BetterUiMod;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.Item;
@@ -31,6 +32,10 @@ public abstract class MixinGuiGraphicsDurability {
     private void betterui$drawDurability(final Font font, final ItemStack stack,
                                           final int x, final int y, final String countOverride,
                                           final CallbackInfo ci) {
+        if (!BetterUiMod.getConfig().isDurabilityShowEnabled()) {
+            return;
+        }
+
         if (stack.isEmpty()) {
             return;
         }

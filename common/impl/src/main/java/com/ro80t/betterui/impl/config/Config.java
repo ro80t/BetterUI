@@ -10,7 +10,16 @@ public class Config implements IConfig {
     /**
      * Shows remaining armor durability as a small HUD panel in the bottom-right
      * corner of the screen. Toggle by editing the mod's config JSON file
-     * (see {@link ConfigIo}) and restarting.
+     * (see {@link ConfigIo}) and restarting, or in-game via the BetterUI
+     * settings screen.
      */
     private boolean durabilityHudEnabled = true;
+
+    /**
+     * Shows remaining durability as a small number on every rendered item
+     * slot icon (hotbar, inventory, anywhere an item is drawn). Toggle by
+     * editing the mod's config JSON file (see {@link ConfigIo}) and
+     * restarting, or in-game via the BetterUI settings screen.
+     */
+    private boolean durabilityShowEnabled = true;
 }
