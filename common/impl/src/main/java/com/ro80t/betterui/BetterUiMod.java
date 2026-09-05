@@ -80,10 +80,10 @@ public class BetterUiMod {
      */
     public static List<ToggleSetting> toggleSettings() {
         return List.of(
-                new ToggleSetting("Durability Show",
+                new ToggleSetting("Durability Item",
                         () -> config.isDurabilityShowEnabled(),
                         value -> betterui$setAndSave(config::setDurabilityShowEnabled, value)),
-                new ToggleSetting("Durability HUD",
+                new ToggleSetting("Durability Armor",
                         () -> config.isDurabilityHudEnabled(),
                         value -> betterui$setAndSave(config::setDurabilityHudEnabled, value))
         );
