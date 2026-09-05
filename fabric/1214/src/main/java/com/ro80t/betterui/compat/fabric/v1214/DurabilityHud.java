@@ -1,6 +1,7 @@
 package com.ro80t.betterui.compat.fabric.v1214;
 
 import com.ro80t.betterui.compat.fabric.commondrawcontext.ArmorDurabilityOverlay;
+import com.ro80t.betterui.compat.fabric.commondrawcontext.CoordinatesOverlay;
 import com.ro80t.betterui.compat.fabric.commondrawcontext.FpsOverlay;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.gui.DrawContext;
@@ -20,5 +21,6 @@ public final class DurabilityHud {
     private static void render(final DrawContext context, final RenderTickCounter tickCounter) {
         ArmorDurabilityOverlay.render(context);
         FpsOverlay.render(context);
+        CoordinatesOverlay.render(context);
     }
 }

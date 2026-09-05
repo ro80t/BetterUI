@@ -2,6 +2,7 @@ package com.ro80t.betterui.compat.forge.common;
 
 import com.ro80t.betterui.BetterUiMod;
 import com.ro80t.betterui.compat.mcoverlay.ArmorDurabilityOverlay;
+import com.ro80t.betterui.compat.mcoverlay.CoordinatesOverlay;
 import com.ro80t.betterui.compat.mcoverlay.FpsOverlay;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -26,6 +27,7 @@ public final class DurabilityHud {
                 (context, deltaTracker) -> {
                     ArmorDurabilityOverlay.render(context);
                     FpsOverlay.render(context);
+                    CoordinatesOverlay.render(context);
                 });
     }
 }

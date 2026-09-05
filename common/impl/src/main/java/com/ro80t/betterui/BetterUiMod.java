@@ -88,7 +88,10 @@ public class BetterUiMod {
                         value -> betterui$setAndSave(config::setDurabilityHudEnabled, value)),
                 new ToggleSetting("FPS Display",
                         () -> config.isFpsDisplayEnabled(),
-                        value -> betterui$setAndSave(config::setFpsDisplayEnabled, value))
+                        value -> betterui$setAndSave(config::setFpsDisplayEnabled, value)),
+                new ToggleSetting("Coordinates Display",
+                        () -> config.isCoordinatesDisplayEnabled(),
+                        value -> betterui$setAndSave(config::setCoordinatesDisplayEnabled, value))
         );
     }
 

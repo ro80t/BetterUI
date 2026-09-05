@@ -20,10 +20,14 @@ A client-side Mixin-based Minecraft mod that improves the vanilla UI/UX.
 - **FPS display** — draws the current FPS as a small number in the top-left corner of the screen.
   Hidden automatically while any screen (inventory, chat, pause menu, ...) is open. Backed by the
   `fpsDisplayEnabled` config key — see [Mod config file](#mod-config-file) below.
+- **Coordinates display** — draws the player's X/Y/Z coordinates (rounded to one decimal place) on
+  their own row directly below the FPS display. Hidden automatically while any screen is open.
+  Backed by the `coordinatesDisplayEnabled` config key — see [Mod config file](#mod-config-file)
+  below.
 - **BetterUI settings screen** — a "BetterUI Settings" button on the pause menu opens a dedicated
-  screen with one ON/OFF button per feature (currently Durability Item, Durability Armor, and FPS
-  Display). Toggling a button flips its config value and immediately rewrites the config file, so
-  the change survives a restart without leaving the game.
+  screen with one ON/OFF button per feature (currently Durability Item, Durability Armor, FPS
+  Display, and Coordinates Display). Toggling a button flips its config value and immediately
+  rewrites the config file, so the change survives a restart without leaving the game.
 
 ---
 
@@ -37,7 +41,8 @@ with the defaults on first launch:
 {
   "durabilityHudEnabled": true,
   "durabilityShowEnabled": true,
-  "fpsDisplayEnabled": true
+  "fpsDisplayEnabled": true,
+  "coordinatesDisplayEnabled": true
 }
 ```
 

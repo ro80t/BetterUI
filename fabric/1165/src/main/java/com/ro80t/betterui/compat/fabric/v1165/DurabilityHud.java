@@ -32,6 +32,7 @@ public final class DurabilityHud {
         HudRenderCallback.EVENT.register((matrices, tickDelta) -> {
             render(matrices);
             FpsOverlay.render(matrices);
+            CoordinatesOverlay.render(matrices);
         });
     }
 
