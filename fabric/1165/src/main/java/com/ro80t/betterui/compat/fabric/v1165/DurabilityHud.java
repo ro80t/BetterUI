@@ -29,7 +29,10 @@ public final class DurabilityHud {
     }
 
     public static void register() {
-        HudRenderCallback.EVENT.register((matrices, tickDelta) -> render(matrices));
+        HudRenderCallback.EVENT.register((matrices, tickDelta) -> {
+            render(matrices);
+            FpsOverlay.render(matrices);
+        });
     }
 
     private static void render(final MatrixStack matrices) {

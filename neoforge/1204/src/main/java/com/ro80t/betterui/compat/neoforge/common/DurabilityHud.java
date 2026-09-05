@@ -1,6 +1,7 @@
 package com.ro80t.betterui.compat.neoforge.common;
 
 import com.ro80t.betterui.compat.mcoverlay.ArmorDurabilityOverlay;
+import com.ro80t.betterui.compat.mcoverlay.FpsOverlay;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
@@ -20,5 +21,6 @@ public final class DurabilityHud {
     @SubscribeEvent
     public static void onRenderGui(final RenderGuiEvent.Post event) {
         ArmorDurabilityOverlay.render(event.getGuiGraphics());
+        FpsOverlay.render(event.getGuiGraphics());
     }
 }

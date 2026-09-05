@@ -22,4 +22,12 @@ public class Config implements IConfig {
      * restarting, or in-game via the BetterUI settings screen.
      */
     private boolean durabilityShowEnabled = true;
+
+    /**
+     * Shows the current FPS as a small number in the top-left corner of the
+     * screen. Toggle by editing the mod's config JSON file (see
+     * {@link ConfigIo}) and restarting, or in-game via the BetterUI settings
+     * screen.
+     */
+    private boolean fpsDisplayEnabled = true;
 }

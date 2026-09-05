@@ -17,10 +17,13 @@ A client-side Mixin-based Minecraft mod that improves the vanilla UI/UX.
   and remaining durability (`current/max`), colored the same as vanilla's own durability bar. Hidden
   automatically while any screen (inventory, chat, pause menu, ...) is open. Backed by the
   `durabilityHudEnabled` config key — see [Mod config file](#mod-config-file) below.
+- **FPS display** — draws the current FPS as a small number in the top-left corner of the screen.
+  Hidden automatically while any screen (inventory, chat, pause menu, ...) is open. Backed by the
+  `fpsDisplayEnabled` config key — see [Mod config file](#mod-config-file) below.
 - **BetterUI settings screen** — a "BetterUI Settings" button on the pause menu opens a dedicated
-  screen with one ON/OFF button per feature (currently Durability Show and the armor durability
-  HUD). Toggling a button flips its config value and immediately rewrites the config file, so the
-  change survives a restart without leaving the game.
+  screen with one ON/OFF button per feature (currently Durability Item, Durability Armor, and FPS
+  Display). Toggling a button flips its config value and immediately rewrites the config file, so
+  the change survives a restart without leaving the game.
 
 ---
 
@@ -33,7 +36,8 @@ with the defaults on first launch:
 ```json
 {
   "durabilityHudEnabled": true,
-  "durabilityShowEnabled": true
+  "durabilityShowEnabled": true,
+  "fpsDisplayEnabled": true
 }
 ```
 

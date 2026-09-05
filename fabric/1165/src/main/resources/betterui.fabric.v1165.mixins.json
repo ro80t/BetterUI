@@ -8,6 +8,7 @@
   "client": [
     "MixinMain",
     "MixinGameMenuScreen",
-    "MixinItemRendererDurability"
+    "MixinItemRendererDurability",
+    "MixinMinecraftClientFpsAccessor"
   ]
 }

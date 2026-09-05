@@ -2,6 +2,7 @@ package com.ro80t.betterui.compat.forge.common;
 
 import com.ro80t.betterui.BetterUiMod;
 import com.ro80t.betterui.compat.mcoverlay.ArmorDurabilityOverlay;
+import com.ro80t.betterui.compat.mcoverlay.FpsOverlay;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
@@ -22,7 +23,9 @@ public final class DurabilityHud {
     @SubscribeEvent
     public static void onRegisterOverlays(final RegisterGuiOverlaysEvent event) {
         event.registerAboveAll(BetterUiMod.MOD_ID + ":durability_hud",
-                (IGuiOverlay) (gui, context, partialTick, screenWidth, screenHeight) ->
-                        ArmorDurabilityOverlay.render(context));
+                (IGuiOverlay) (gui, context, partialTick, screenWidth, screenHeight) -> {
+                    ArmorDurabilityOverlay.render(context);
+                    FpsOverlay.render(context);
+                });
     }
 }

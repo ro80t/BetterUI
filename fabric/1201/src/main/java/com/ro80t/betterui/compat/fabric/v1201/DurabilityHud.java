@@ -17,5 +17,6 @@ public final class DurabilityHud {
 
     private static void render(final DrawContext context, final float tickDelta) {
         ArmorDurabilityOverlay.render(context);
+        FpsOverlay.render(context);
     }
 }

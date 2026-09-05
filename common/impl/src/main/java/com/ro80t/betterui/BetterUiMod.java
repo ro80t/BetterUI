@@ -85,7 +85,10 @@ public class BetterUiMod {
                         value -> betterui$setAndSave(config::setDurabilityShowEnabled, value)),
                 new ToggleSetting("Durability Armor",
                         () -> config.isDurabilityHudEnabled(),
-                        value -> betterui$setAndSave(config::setDurabilityHudEnabled, value))
+                        value -> betterui$setAndSave(config::setDurabilityHudEnabled, value)),
+                new ToggleSetting("FPS Display",
+                        () -> config.isFpsDisplayEnabled(),
+                        value -> betterui$setAndSave(config::setFpsDisplayEnabled, value))
         );
     }
 
