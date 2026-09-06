@@ -21,8 +21,9 @@ import java.util.List;
  * <p>
  * Only three buttons live directly on screen (top-right): Back, a Resize
  * toggle (drag changes scale instead of position while it's on), and a
- * Reset menu toggle that reveals a list of per-element/orientation/all reset
- * buttons only while open. Everything else is done by dragging the preview.
+ * Details menu toggle that reveals a list of per-element reset buttons, the
+ * armor orientation switch, and a reset-all button, only while open.
+ * Everything else is done by dragging the preview.
  * <p>
  * The per-item durability number has its own dedicated editor,
  * {@link BetterUiDurabilityItemEditorScreen}, since it isn't drawn at one
@@ -39,17 +40,17 @@ public final class BetterUiPositionEditorScreen extends Screen {
     private static final int BUTTON_HEIGHT = 20;
     private static final int BACK_WIDTH = 50;
     private static final int RESIZE_WIDTH = 70;
-    private static final int RESET_WIDTH = 60;
+    private static final int DETAILS_WIDTH = 70;
     private static final int MENU_WIDTH = 160;
     private static final int MENU_ROW_HEIGHT = 24;
     private static final int GAP = 4;
 
     private final Screen parent;
     private final List<Handle> handles = new ArrayList<>();
-    private final List<Button> resetMenuButtons = new ArrayList<>();
+    private final List<Button> detailsMenuButtons = new ArrayList<>();
     private Handle dragging;
     private boolean resizeMode;
-    private boolean resetMenuOpen;
+    private boolean detailsMenuOpen;
     private double dragGrabOffsetX;
     private double dragGrabOffsetY;
     private double resizeStartMouseX;
@@ -64,8 +65,8 @@ public final class BetterUiPositionEditorScreen extends Screen {
     protected void init() {
         final int backX = this.width - 4 - BACK_WIDTH;
         final int resizeX = backX - GAP - RESIZE_WIDTH;
-        final int resetX = resizeX - GAP - RESET_WIDTH;
-        final int menuX = resetX + RESET_WIDTH - MENU_WIDTH;
+        final int detailsX = resizeX - GAP - DETAILS_WIDTH;
+        final int menuX = detailsX + DETAILS_WIDTH - MENU_WIDTH;
 
         this.addRenderableWidget(Button.builder(Component.literal("Back"), button -> this.onClose())
                 .bounds(backX, TOP_Y, BACK_WIDTH, BUTTON_HEIGHT)
@@ -78,22 +79,22 @@ public final class BetterUiPositionEditorScreen extends Screen {
                 .bounds(resizeX, TOP_Y, RESIZE_WIDTH, BUTTON_HEIGHT)
                 .build());
 
-        this.addRenderableWidget(Button.builder(resetToggleLabel(), button -> {
-                    this.resetMenuOpen = !this.resetMenuOpen;
-                    button.setMessage(resetToggleLabel());
-                    setResetMenuVisible(this.resetMenuOpen);
+        this.addRenderableWidget(Button.builder(detailsToggleLabel(), button -> {
+                    this.detailsMenuOpen = !this.detailsMenuOpen;
+                    button.setMessage(detailsToggleLabel());
+                    setDetailsMenuVisible(this.detailsMenuOpen);
                 })
-                .bounds(resetX, TOP_Y, RESET_WIDTH, BUTTON_HEIGHT)
+                .bounds(detailsX, TOP_Y, DETAILS_WIDTH, BUTTON_HEIGHT)
                 .build());
 
         int menuY = TOP_Y + BUTTON_HEIGHT + 4;
-        addResetMenuItem(menuX, menuY, Component.literal("Reset FPS"),
+        addDetailsMenuItem(menuX, menuY, Component.literal("Reset FPS"),
                 () -> BetterUiMod.getConfig().resetFpsLayout(), false);
         menuY += MENU_ROW_HEIGHT;
-        addResetMenuItem(menuX, menuY, Component.literal("Reset Coordinates"),
+        addDetailsMenuItem(menuX, menuY, Component.literal("Reset Coordinates"),
                 () -> BetterUiMod.getConfig().resetCoordinatesLayout(), false);
         menuY += MENU_ROW_HEIGHT;
-        addResetMenuItem(menuX, menuY, Component.literal("Reset Armor HUD"),
+        addDetailsMenuItem(menuX, menuY, Component.literal("Reset Armor HUD"),
                 () -> BetterUiMod.getConfig().resetArmorHudLayout(), false);
         menuY += MENU_ROW_HEIGHT;
 
@@ -105,17 +106,17 @@ public final class BetterUiPositionEditorScreen extends Screen {
                 .bounds(menuX, menuY, MENU_WIDTH, BUTTON_HEIGHT)
                 .build();
         this.addRenderableWidget(orientationButton);
-        this.resetMenuButtons.add(orientationButton);
+        this.detailsMenuButtons.add(orientationButton);
         menuY += MENU_ROW_HEIGHT;
 
-        addResetMenuItem(menuX, menuY, Component.literal("Reset All"),
+        addDetailsMenuItem(menuX, menuY, Component.literal("Reset All"),
                 () -> BetterUiMod.getConfig().resetHudLayouts(), true);
 
-        setResetMenuVisible(false);
+        setDetailsMenuVisible(false);
     }
 
-    private void addResetMenuItem(final int x, final int y, final Component label, final Runnable resetAction,
-                                   final boolean reopenScreen) {
+    private void addDetailsMenuItem(final int x, final int y, final Component label, final Runnable resetAction,
+                                     final boolean reopenScreen) {
         final Button button = Button.builder(label, b -> {
                     resetAction.run();
                     BetterUiMod.saveConfig();
@@ -126,11 +127,11 @@ public final class BetterUiPositionEditorScreen extends Screen {
                 .bounds(x, y, MENU_WIDTH, BUTTON_HEIGHT)
                 .build();
         this.addRenderableWidget(button);
-        this.resetMenuButtons.add(button);
+        this.detailsMenuButtons.add(button);
     }
 
-    private void setResetMenuVisible(final boolean visible) {
-        for (final Button button : this.resetMenuButtons) {
+    private void setDetailsMenuVisible(final boolean visible) {
+        for (final Button button : this.detailsMenuButtons) {
             button.visible = visible;
             button.active = visible;
         }
@@ -140,8 +141,8 @@ public final class BetterUiPositionEditorScreen extends Screen {
         return Component.literal("Resize: " + (this.resizeMode ? "ON" : "OFF"));
     }
 
-    private Component resetToggleLabel() {
-        return Component.literal(this.resetMenuOpen ? "Reset ^" : "Reset v");
+    private Component detailsToggleLabel() {
+        return Component.literal(this.detailsMenuOpen ? "Details ^" : "Details v");
     }
 
     private static Component orientationLabel() {

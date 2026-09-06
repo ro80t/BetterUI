@@ -23,8 +23,9 @@ import java.util.List;
  * <p>
  * Only three buttons live directly on screen (top-right): Back, a Resize
  * toggle (drag changes scale instead of position while it's on), and a
- * Reset menu toggle that reveals a list of per-element/orientation/all reset
- * buttons only while open. Everything else is done by dragging the preview.
+ * Details menu toggle that reveals a list of per-element reset buttons, the
+ * armor orientation switch, and a reset-all button, only while open.
+ * Everything else is done by dragging the preview.
  * <p>
  * The per-item durability number has its own dedicated editor,
  * {@link BetterUiDurabilityItemEditorScreen}, since it isn't drawn at one
@@ -39,17 +40,17 @@ public final class BetterUiPositionEditorScreen extends Screen {
     private static final int BUTTON_HEIGHT = 20;
     private static final int BACK_WIDTH = 50;
     private static final int RESIZE_WIDTH = 70;
-    private static final int RESET_WIDTH = 60;
+    private static final int DETAILS_WIDTH = 70;
     private static final int MENU_WIDTH = 160;
     private static final int MENU_ROW_HEIGHT = 24;
     private static final int GAP = 4;
 
     private final Screen parent;
     private final List<Handle> handles = new ArrayList<>();
-    private final List<ButtonWidget> resetMenuButtons = new ArrayList<>();
+    private final List<ButtonWidget> detailsMenuButtons = new ArrayList<>();
     private Handle dragging;
     private boolean resizeMode;
-    private boolean resetMenuOpen;
+    private boolean detailsMenuOpen;
     private double dragGrabOffsetX;
     private double dragGrabOffsetY;
     private double resizeStartMouseX;
@@ -64,8 +65,8 @@ public final class BetterUiPositionEditorScreen extends Screen {
     protected void init() {
         final int backX = this.width - 4 - BACK_WIDTH;
         final int resizeX = backX - GAP - RESIZE_WIDTH;
-        final int resetX = resizeX - GAP - RESET_WIDTH;
-        final int menuX = resetX + RESET_WIDTH - MENU_WIDTH;
+        final int detailsX = resizeX - GAP - DETAILS_WIDTH;
+        final int menuX = detailsX + DETAILS_WIDTH - MENU_WIDTH;
 
         this.addDrawableChild(new ButtonWidget(backX, TOP_Y, BACK_WIDTH, BUTTON_HEIGHT,
                 new LiteralText("Back"), button -> this.close()));
@@ -75,20 +76,20 @@ public final class BetterUiPositionEditorScreen extends Screen {
             button.setMessage(resizeLabel());
         }));
 
-        this.addDrawableChild(new ButtonWidget(resetX, TOP_Y, RESET_WIDTH, BUTTON_HEIGHT, resetToggleLabel(), button -> {
-            this.resetMenuOpen = !this.resetMenuOpen;
-            button.setMessage(resetToggleLabel());
-            setResetMenuVisible(this.resetMenuOpen);
+        this.addDrawableChild(new ButtonWidget(detailsX, TOP_Y, DETAILS_WIDTH, BUTTON_HEIGHT, detailsToggleLabel(), button -> {
+            this.detailsMenuOpen = !this.detailsMenuOpen;
+            button.setMessage(detailsToggleLabel());
+            setDetailsMenuVisible(this.detailsMenuOpen);
         }));
 
         int menuY = TOP_Y + BUTTON_HEIGHT + 4;
-        addResetMenuItem(menuX, menuY, new LiteralText("Reset FPS"),
+        addDetailsMenuItem(menuX, menuY, new LiteralText("Reset FPS"),
                 () -> BetterUiMod.getConfig().resetFpsLayout(), false);
         menuY += MENU_ROW_HEIGHT;
-        addResetMenuItem(menuX, menuY, new LiteralText("Reset Coordinates"),
+        addDetailsMenuItem(menuX, menuY, new LiteralText("Reset Coordinates"),
                 () -> BetterUiMod.getConfig().resetCoordinatesLayout(), false);
         menuY += MENU_ROW_HEIGHT;
-        addResetMenuItem(menuX, menuY, new LiteralText("Reset Armor HUD"),
+        addDetailsMenuItem(menuX, menuY, new LiteralText("Reset Armor HUD"),
                 () -> BetterUiMod.getConfig().resetArmorHudLayout(), false);
         menuY += MENU_ROW_HEIGHT;
 
@@ -99,17 +100,17 @@ public final class BetterUiPositionEditorScreen extends Screen {
                     button.setMessage(orientationLabel());
                 });
         this.addDrawableChild(orientationButton);
-        this.resetMenuButtons.add(orientationButton);
+        this.detailsMenuButtons.add(orientationButton);
         menuY += MENU_ROW_HEIGHT;
 
-        addResetMenuItem(menuX, menuY, new LiteralText("Reset All"),
+        addDetailsMenuItem(menuX, menuY, new LiteralText("Reset All"),
                 () -> BetterUiMod.getConfig().resetHudLayouts(), true);
 
-        setResetMenuVisible(false);
+        setDetailsMenuVisible(false);
     }
 
-    private void addResetMenuItem(final int x, final int y, final Text label, final Runnable resetAction,
-                                   final boolean reopenScreen) {
+    private void addDetailsMenuItem(final int x, final int y, final Text label, final Runnable resetAction,
+                                     final boolean reopenScreen) {
         final ButtonWidget button = new ButtonWidget(x, y, MENU_WIDTH, BUTTON_HEIGHT, label, b -> {
             resetAction.run();
             BetterUiMod.saveConfig();
@@ -118,11 +119,11 @@ public final class BetterUiPositionEditorScreen extends Screen {
             }
         });
         this.addDrawableChild(button);
-        this.resetMenuButtons.add(button);
+        this.detailsMenuButtons.add(button);
     }
 
-    private void setResetMenuVisible(final boolean visible) {
-        for (final ButtonWidget button : this.resetMenuButtons) {
+    private void setDetailsMenuVisible(final boolean visible) {
+        for (final ButtonWidget button : this.detailsMenuButtons) {
             button.visible = visible;
             button.active = visible;
         }
@@ -132,8 +133,8 @@ public final class BetterUiPositionEditorScreen extends Screen {
         return new LiteralText("Resize: " + (this.resizeMode ? "ON" : "OFF"));
     }
 
-    private Text resetToggleLabel() {
-        return new LiteralText(this.resetMenuOpen ? "Reset ^" : "Reset v");
+    private Text detailsToggleLabel() {
+        return new LiteralText(this.detailsMenuOpen ? "Details ^" : "Details v");
     }
 
     private static Text orientationLabel() {
