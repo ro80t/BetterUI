@@ -28,10 +28,25 @@ public final class ArmorDurabilityOverlay {
     private static final EquipmentSlot[] ARMOR_SLOTS_BOTTOM_UP = {
             EquipmentSlot.FEET, EquipmentSlot.LEGS, EquipmentSlot.CHEST, EquipmentSlot.HEAD
     };
-    private static final int ROW_HEIGHT = 18;
-    private static final int ROW_WIDTH = 56;
+    static final int MAX_ROWS = ARMOR_SLOTS_BOTTOM_UP.length;
+    static final int ICON_SIZE = 16;
+    static final int ROW_HEIGHT = 18;
+    private static final int COLUMN_GAP = 4;
+    private static final String WIDTH_SAMPLE_TEXT = "9999/9999";
 
     private ArmorDurabilityOverlay() {
+    }
+
+    /**
+     * Width reserved for one column in horizontal mode: wide enough for the
+     * icon plus a generously-sized durability string, so columns never
+     * overlap regardless of how long the actual "remaining/max" text is.
+     * Fixed (not fitted to the real text) so the BetterUI position editor's
+     * preview can reserve the exact same width and always match reality -
+     * see {@code BetterUiPositionEditorScreen#drawArmorHudPreview}.
+     */
+    static int columnWidth(final TextRenderer textRenderer) {
+        return ICON_SIZE + COLUMN_GAP + textRenderer.getWidth(WIDTH_SAMPLE_TEXT) + COLUMN_GAP;
     }
 
     public static void render(final DrawContext context) {
@@ -48,6 +63,8 @@ public final class ArmorDurabilityOverlay {
         final HudLayout layout = BetterUiMod.getConfig().getArmorHudLayout();
         final boolean vertical = BetterUiMod.getConfig().isArmorHudVertical();
 
+        final int columnWidth = columnWidth(client.textRenderer);
+
         final Matrix3x2fStack matrices = context.getMatrices();
         matrices.pushMatrix();
         matrices.translate(layout.x(context.getScaledWindowWidth()), layout.y(context.getScaledWindowHeight()));
@@ -60,23 +77,21 @@ public final class ArmorDurabilityOverlay {
                 continue;
             }
 
-            entry.draw(context, client.textRenderer, iconPosition(row, vertical));
+            entry.draw(context, client.textRenderer, iconPosition(row, vertical, columnWidth));
             row++;
         }
 
         matrices.popMatrix();
     }
 
-    private static Position iconPosition(final int row, final boolean vertical) {
-        return vertical ? new Position(0, -row * ROW_HEIGHT) : new Position(-row * ROW_WIDTH, 0);
+    static Position iconPosition(final int row, final boolean vertical, final int columnWidth) {
+        return vertical ? new Position(0, -row * ROW_HEIGHT) : new Position(-row * columnWidth, 0);
     }
 
-    private record Position(int x, int y) {
+    record Position(int x, int y) {
     }
 
     private record DurabilityEntry(ItemStack stack) {
-        private static final int ICON_SIZE = 16;
-
         boolean isVisible() {
             return !stack.isEmpty() && stack.isDamageable();
         }

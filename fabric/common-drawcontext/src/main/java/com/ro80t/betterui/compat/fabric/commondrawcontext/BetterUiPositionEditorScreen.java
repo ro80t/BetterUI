@@ -6,6 +6,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
@@ -189,22 +190,39 @@ public final class BetterUiPositionEditorScreen extends Screen {
                 textWidth + HANDLE_PADDING * 2, textHeight + HANDLE_PADDING * 2));
     }
 
+    private static final String[] ARMOR_SAMPLE_TEXTS = {"12/33", "456/789", "23/45", "1234/5678"};
+    private static final Item[] ARMOR_SAMPLE_ITEMS = {
+            Items.DIAMOND_BOOTS, Items.DIAMOND_LEGGINGS, Items.DIAMOND_CHESTPLATE, Items.DIAMOND_HELMET
+    };
+
     private void drawArmorHudPreview(final DrawContext context) {
         final HudLayout layout = BetterUiMod.getConfig().getArmorHudLayout();
         final boolean vertical = BetterUiMod.getConfig().isArmorHudVertical();
         final int x = layout.x(this.width);
         final int y = layout.y(this.height);
-        final String text = "12/33";
-        final int textWidth = this.textRenderer.getWidth(text);
-        final int boxWidth = Math.round((16 + 4 + textWidth) * layout.getScale());
-        final int boxHeight = Math.round(16 * layout.getScale());
-        final int previewWidth = vertical ? boxWidth : boxWidth * 2 + 8;
-        final int previewHeight = vertical ? boxHeight * 2 + 8 : boxHeight;
-        final int left = vertical ? x : x - previewWidth + boxWidth;
-        final int top = vertical ? y - previewHeight + boxHeight : y;
+        final int columnWidth = ArmorDurabilityOverlay.columnWidth(this.textRenderer);
+        final int iconSize = ArmorDurabilityOverlay.ICON_SIZE;
 
-        context.fill(left - HANDLE_PADDING, top - HANDLE_PADDING, left + previewWidth + HANDLE_PADDING,
-                top + previewHeight + HANDLE_PADDING, 0x55FF9944);
+        int minX = 0;
+        int maxX = iconSize;
+        int minY = 0;
+        int maxY = iconSize;
+        for (int row = 0; row < ARMOR_SAMPLE_TEXTS.length; row++) {
+            final ArmorDurabilityOverlay.Position pos = ArmorDurabilityOverlay.iconPosition(row, vertical, columnWidth);
+            final int textWidth = this.textRenderer.getWidth(ARMOR_SAMPLE_TEXTS[row]);
+            minX = Math.min(minX, pos.x() - 4 - textWidth);
+            maxX = Math.max(maxX, pos.x() + iconSize);
+            minY = Math.min(minY, pos.y());
+            maxY = Math.max(maxY, pos.y() + iconSize);
+        }
+
+        final int left = x + Math.round(minX * layout.getScale());
+        final int right = x + Math.round(maxX * layout.getScale());
+        final int top = y + Math.round(minY * layout.getScale());
+        final int bottom = y + Math.round(maxY * layout.getScale());
+
+        context.fill(left - HANDLE_PADDING, top - HANDLE_PADDING, right + HANDLE_PADDING,
+                bottom + HANDLE_PADDING, 0x55FF9944);
         context.drawText(this.textRenderer, "Armor HUD (" + String.format("%.2f", layout.getScale()) + "x)",
                 left - HANDLE_PADDING, top - HANDLE_PADDING - 10, 0xFFFF00, false);
 
@@ -212,12 +230,18 @@ public final class BetterUiPositionEditorScreen extends Screen {
         matrices.push();
         matrices.translate(x, y, 0.0F);
         matrices.scale(layout.getScale(), layout.getScale(), 1.0F);
-        context.drawItem(new ItemStack(Items.DIAMOND_CHESTPLATE), 0, 0);
-        context.drawText(this.textRenderer, text, -4 - textWidth, (16 - this.textRenderer.fontHeight) / 2, 0xFFFFFFFF, false);
+        for (int row = 0; row < ARMOR_SAMPLE_TEXTS.length; row++) {
+            final ArmorDurabilityOverlay.Position pos = ArmorDurabilityOverlay.iconPosition(row, vertical, columnWidth);
+            final String text = ARMOR_SAMPLE_TEXTS[row];
+            final int textWidth = this.textRenderer.getWidth(text);
+            context.drawItem(new ItemStack(ARMOR_SAMPLE_ITEMS[row]), pos.x(), pos.y());
+            context.drawText(this.textRenderer, text, pos.x() - 4 - textWidth,
+                    pos.y() + (iconSize - this.textRenderer.fontHeight) / 2, 0xFFFFFFFF, false);
+        }
         matrices.pop();
 
         this.handles.add(new Handle("Armor HUD", layout, left - HANDLE_PADDING, top - HANDLE_PADDING,
-                previewWidth + HANDLE_PADDING * 2, previewHeight + HANDLE_PADDING * 2));
+                (right - left) + HANDLE_PADDING * 2, (bottom - top) + HANDLE_PADDING * 2));
     }
 
     @Override
