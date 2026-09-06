@@ -1,6 +1,7 @@
 package com.ro80t.betterui.compat.fabric.v1165;
 
 import com.ro80t.betterui.BetterUiMod;
+import com.ro80t.betterui.impl.config.HudLayout;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -24,6 +25,8 @@ public final class DurabilityHud {
     private static final EquipmentSlot[] ARMOR_SLOTS_BOTTOM_UP = {
             EquipmentSlot.FEET, EquipmentSlot.LEGS, EquipmentSlot.CHEST, EquipmentSlot.HEAD
     };
+    private static final int ROW_HEIGHT = 18;
+    private static final int ROW_WIDTH = 56;
 
     private DurabilityHud() {
     }
@@ -47,8 +50,15 @@ public final class DurabilityHud {
             return;
         }
 
-        final RowLayout layout = new RowLayout(
-                client.getWindow().getScaledWidth(), client.getWindow().getScaledHeight());
+        final HudLayout layout = BetterUiMod.getConfig().getArmorHudLayout();
+        final boolean vertical = BetterUiMod.getConfig().isArmorHudVertical();
+        final int screenWidth = client.getWindow().getScaledWidth();
+        final int screenHeight = client.getWindow().getScaledHeight();
+
+        matrices.push();
+        matrices.translate(layout.x(screenWidth), layout.y(screenHeight), 0.0F);
+        matrices.scale(layout.getScale(), layout.getScale(), 1.0F);
+
         int row = 0;
         for (final EquipmentSlot slot : ARMOR_SLOTS_BOTTOM_UP) {
             final DurabilityEntry entry = new DurabilityEntry(player.getEquippedStack(slot));
@@ -56,24 +66,18 @@ public final class DurabilityHud {
                 continue;
             }
 
-            entry.draw(matrices, client.textRenderer, client.getItemRenderer(), layout.iconPosition(row));
+            entry.draw(matrices, client.textRenderer, client.getItemRenderer(), iconPosition(row, vertical));
             row++;
         }
+
+        matrices.pop();
+    }
+
+    private static Position iconPosition(final int row, final boolean vertical) {
+        return vertical ? new Position(0, -row * ROW_HEIGHT) : new Position(-row * ROW_WIDTH, 0);
     }
 
     private record Position(int x, int y) {
-    }
-
-    private record RowLayout(int screenWidth, int screenHeight) {
-        private static final int MARGIN = 6;
-        private static final int ROW_HEIGHT = 18;
-
-        Position iconPosition(final int row) {
-            return new Position(
-                    screenWidth - MARGIN - DurabilityEntry.ICON_SIZE,
-                    screenHeight - MARGIN - DurabilityEntry.ICON_SIZE - row * ROW_HEIGHT
-            );
-        }
     }
 
     private record DurabilityEntry(ItemStack stack) {

@@ -1,19 +1,18 @@
 package com.ro80t.betterui.compat.fabric.v1201;
 
 import com.ro80t.betterui.BetterUiMod;
+import com.ro80t.betterui.impl.config.HudLayout;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.util.math.MatrixStack;
 
 /**
- * Draws the player's coordinates, rounded to one decimal place, as a small
- * line in the top-left corner of the screen, below the FPS display. Toggle
- * with {@code coordinatesDisplayEnabled} in the mod's config file.
+ * Draws the player's coordinates, rounded to one decimal place, at a
+ * position and scale editable via the BetterUI position editor screen
+ * ({@code coordinatesLayout} in the config).
  */
 public final class CoordinatesOverlay {
-    private static final int MARGIN = 2;
-    private static final int ROW_Y = MARGIN + 10;
-
     private CoordinatesOverlay() {
     }
 
@@ -34,6 +33,13 @@ public final class CoordinatesOverlay {
 
         final String text = String.format(
                 "X: %.1f Y: %.1f Z: %.1f", player.getX(), player.getY(), player.getZ());
-        context.drawTextWithShadow(client.textRenderer, text, MARGIN, ROW_Y, 0xFFFFFFFF);
+
+        final HudLayout layout = BetterUiMod.getConfig().getCoordinatesLayout();
+        final MatrixStack matrices = context.getMatrices();
+        matrices.push();
+        matrices.translate(layout.x(context.getScaledWindowWidth()), layout.y(context.getScaledWindowHeight()), 0.0F);
+        matrices.scale(layout.getScale(), layout.getScale(), 1.0F);
+        context.drawTextWithShadow(client.textRenderer, text, 0, 0, 0xFFFFFFFF);
+        matrices.pop();
     }
 }

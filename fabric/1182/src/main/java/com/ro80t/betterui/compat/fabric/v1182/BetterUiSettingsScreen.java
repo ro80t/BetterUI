@@ -1,6 +1,8 @@
 package com.ro80t.betterui.compat.fabric.v1182;
 
 import com.ro80t.betterui.BetterUiMod;
+import com.ro80t.betterui.compat.fabric.commonlegacy.BetterUiDurabilityItemEditorScreen;
+import com.ro80t.betterui.compat.fabric.commonlegacy.BetterUiPositionEditorScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.LiteralText;
@@ -35,6 +37,13 @@ public final class BetterUiSettingsScreen extends Screen {
             }));
             y += BUTTON_SPACING;
         }
+
+        this.addDrawableChild(new ButtonWidget(centerX, y, BUTTON_WIDTH, BUTTON_HEIGHT,
+                new LiteralText("Edit HUD Positions"), button -> this.client.setScreen(new BetterUiPositionEditorScreen(this))));
+        y += BUTTON_SPACING;
+
+        this.addDrawableChild(new ButtonWidget(centerX, y, BUTTON_WIDTH, BUTTON_HEIGHT,
+                new LiteralText("Edit Durability Number"), button -> this.client.setScreen(new BetterUiDurabilityItemEditorScreen(this))));
 
         this.addDrawableChild(new ButtonWidget(centerX, this.height - 28, BUTTON_WIDTH, BUTTON_HEIGHT,
                 new LiteralText("Done"), button -> this.close()));

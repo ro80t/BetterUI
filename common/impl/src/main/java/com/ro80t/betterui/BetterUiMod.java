@@ -99,4 +99,14 @@ public class BetterUiMod {
         fieldSetter.accept(value);
         ConfigIo.save(config, configFile);
     }
+
+    /**
+     * Persists the current config to disk. Called by loader UI code (e.g.
+     * the position editor screen) after directly mutating a {@link Config}
+     * field or one of its nested {@code HudLayout}s, since those don't go
+     * through {@link #betterui$setAndSave}.
+     */
+    public static void saveConfig() {
+        ConfigIo.save(config, configFile);
+    }
 }

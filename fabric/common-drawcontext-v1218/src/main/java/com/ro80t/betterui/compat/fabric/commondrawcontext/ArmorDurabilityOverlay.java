@@ -1,16 +1,20 @@
 package com.ro80t.betterui.compat.fabric.commondrawcontext;
 
 import com.ro80t.betterui.BetterUiMod;
+import com.ro80t.betterui.impl.config.HudLayout;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import org.joml.Matrix3x2fStack;
 
 /**
  * "Durability show"-style HUD overlay: lists the equipped armor pieces and
- * their remaining durability in the bottom-right corner of the screen.
+ * their remaining durability, at a position/scale editable via the BetterUI
+ * position editor screen ({@code armorHudLayout} in the config), stacked
+ * either vertically or horizontally depending on {@code armorHudVertical}.
  * Toggle with {@code durabilityHudEnabled} in the mod's config file.
  * <p>
  * Byte-identical to {@code fabric:common-drawcontext}'s copy, but compiled
@@ -24,6 +28,8 @@ public final class ArmorDurabilityOverlay {
     private static final EquipmentSlot[] ARMOR_SLOTS_BOTTOM_UP = {
             EquipmentSlot.FEET, EquipmentSlot.LEGS, EquipmentSlot.CHEST, EquipmentSlot.HEAD
     };
+    private static final int ROW_HEIGHT = 18;
+    private static final int ROW_WIDTH = 56;
 
     private ArmorDurabilityOverlay() {
     }
@@ -39,7 +45,14 @@ public final class ArmorDurabilityOverlay {
             return;
         }
 
-        final RowLayout layout = new RowLayout(context.getScaledWindowWidth(), context.getScaledWindowHeight());
+        final HudLayout layout = BetterUiMod.getConfig().getArmorHudLayout();
+        final boolean vertical = BetterUiMod.getConfig().isArmorHudVertical();
+
+        final Matrix3x2fStack matrices = context.getMatrices();
+        matrices.pushMatrix();
+        matrices.translate(layout.x(context.getScaledWindowWidth()), layout.y(context.getScaledWindowHeight()));
+        matrices.scale(layout.getScale());
+
         int row = 0;
         for (final EquipmentSlot slot : ARMOR_SLOTS_BOTTOM_UP) {
             final DurabilityEntry entry = new DurabilityEntry(player.getEquippedStack(slot));
@@ -47,24 +60,18 @@ public final class ArmorDurabilityOverlay {
                 continue;
             }
 
-            entry.draw(context, client.textRenderer, layout.iconPosition(row));
+            entry.draw(context, client.textRenderer, iconPosition(row, vertical));
             row++;
         }
+
+        matrices.popMatrix();
+    }
+
+    private static Position iconPosition(final int row, final boolean vertical) {
+        return vertical ? new Position(0, -row * ROW_HEIGHT) : new Position(-row * ROW_WIDTH, 0);
     }
 
     private record Position(int x, int y) {
-    }
-
-    private record RowLayout(int screenWidth, int screenHeight) {
-        private static final int MARGIN = 6;
-        private static final int ROW_HEIGHT = 18;
-
-        Position iconPosition(final int row) {
-            return new Position(
-                    screenWidth - MARGIN - DurabilityEntry.ICON_SIZE,
-                    screenHeight - MARGIN - DurabilityEntry.ICON_SIZE - row * ROW_HEIGHT
-            );
-        }
     }
 
     private record DurabilityEntry(ItemStack stack) {

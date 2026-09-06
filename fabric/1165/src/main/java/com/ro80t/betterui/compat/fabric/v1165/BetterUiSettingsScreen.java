@@ -36,6 +36,13 @@ public final class BetterUiSettingsScreen extends Screen {
             y += BUTTON_SPACING;
         }
 
+        this.addButton(new ButtonWidget(centerX, y, BUTTON_WIDTH, BUTTON_HEIGHT,
+                new LiteralText("Edit HUD Positions"), button -> this.client.openScreen(new BetterUiPositionEditorScreen(this))));
+        y += BUTTON_SPACING;
+
+        this.addButton(new ButtonWidget(centerX, y, BUTTON_WIDTH, BUTTON_HEIGHT,
+                new LiteralText("Edit Durability Number"), button -> this.client.openScreen(new BetterUiDurabilityItemEditorScreen(this))));
+
         this.addButton(new ButtonWidget(centerX, this.height - 28, BUTTON_WIDTH, BUTTON_HEIGHT,
                 new LiteralText("Done"), button -> this.onClose()));
     }

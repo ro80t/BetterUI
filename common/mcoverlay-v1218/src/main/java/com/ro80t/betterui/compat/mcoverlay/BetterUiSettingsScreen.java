@@ -43,6 +43,17 @@ public final class BetterUiSettingsScreen extends Screen {
             y += BUTTON_SPACING;
         }
 
+        this.addRenderableWidget(Button.builder(Component.literal("Edit HUD Positions"),
+                        button -> this.minecraft.setScreen(new BetterUiPositionEditorScreen(this)))
+                .bounds(centerX, y, BUTTON_WIDTH, BUTTON_HEIGHT)
+                .build());
+        y += BUTTON_SPACING;
+
+        this.addRenderableWidget(Button.builder(Component.literal("Edit Durability Number"),
+                        button -> this.minecraft.setScreen(new BetterUiDurabilityItemEditorScreen(this)))
+                .bounds(centerX, y, BUTTON_WIDTH, BUTTON_HEIGHT)
+                .build());
+
         this.addRenderableWidget(Button.builder(Component.literal("Done"), button -> this.onClose())
                 .bounds(centerX, this.height - 28, BUTTON_WIDTH, BUTTON_HEIGHT)
                 .build());

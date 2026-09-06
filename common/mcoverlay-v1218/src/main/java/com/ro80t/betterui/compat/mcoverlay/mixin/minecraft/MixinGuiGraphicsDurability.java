@@ -1,6 +1,7 @@
 package com.ro80t.betterui.compat.mcoverlay.mixin.minecraft;
 
 import com.ro80t.betterui.BetterUiMod;
+import com.ro80t.betterui.impl.config.HudLayout;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.Item;
@@ -23,8 +24,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  */
 @Mixin(value = GuiGraphics.class, remap = false)
 public abstract class MixinGuiGraphicsDurability {
-    private static final float SCALE = 0.5F;
-
     @Inject(
             method = "renderItemDecorations(Lnet/minecraft/client/gui/Font;Lnet/minecraft/world/item/ItemStack;IILjava/lang/String;)V",
             at = @At("TAIL")
@@ -49,11 +48,12 @@ public abstract class MixinGuiGraphicsDurability {
         final String text = String.valueOf(stack.getMaxDamage() - stack.getDamageValue());
         final int color = item.getBarColor(stack) | 0xFF000000;
         final int textWidth = font.width(text);
+        final HudLayout layout = BetterUiMod.getConfig().getDurabilityItemLayout();
 
         final Matrix3x2fStack matrices = self.pose();
         matrices.pushMatrix();
-        matrices.translate(x + 8.0F, y + 8.0F);
-        matrices.scale(SCALE);
+        matrices.translate(x + 8.0F + layout.getOffsetX(), y + 8.0F + layout.getOffsetY());
+        matrices.scale(layout.getScale());
         self.drawString(font, text, -textWidth / 2, 0, color);
         matrices.popMatrix();
     }

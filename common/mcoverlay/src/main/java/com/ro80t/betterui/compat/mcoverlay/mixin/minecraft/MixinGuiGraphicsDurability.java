@@ -1,6 +1,7 @@
 package com.ro80t.betterui.compat.mcoverlay.mixin.minecraft;
 
 import com.ro80t.betterui.BetterUiMod;
+import com.ro80t.betterui.impl.config.HudLayout;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.Item;
@@ -21,8 +22,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  */
 @Mixin(value = GuiGraphics.class, remap = false)
 public abstract class MixinGuiGraphicsDurability {
-    private static final float SCALE = 0.5F;
-
     @Inject(
             method = "renderItemDecorations(Lnet/minecraft/client/gui/Font;Lnet/minecraft/world/item/ItemStack;IILjava/lang/String;)V",
             at = @At("TAIL")
@@ -47,12 +46,13 @@ public abstract class MixinGuiGraphicsDurability {
         final String text = String.valueOf(stack.getMaxDamage() - stack.getDamageValue());
         final int color = item.getBarColor(stack) | 0xFF000000;
         final int textWidth = font.width(text);
+        final HudLayout layout = BetterUiMod.getConfig().getDurabilityItemLayout();
 
         self.pose().pushPose();
         // Match vanilla's own item-count overlay: without this Z push, the text
         // gets depth-tested behind the item's own 3D icon render and vanishes.
-        self.pose().translate(x + 8.0F, y + 8.0F, 200.0F);
-        self.pose().scale(SCALE, SCALE, 1.0F);
+        self.pose().translate(x + 8.0F + layout.getOffsetX(), y + 8.0F + layout.getOffsetY(), 200.0F);
+        self.pose().scale(layout.getScale(), layout.getScale(), 1.0F);
         self.drawString(font, text, -textWidth / 2, 0, color);
         self.pose().popPose();
     }
