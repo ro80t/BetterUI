@@ -1,5 +1,7 @@
 # BetterUI
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 A client-side Mixin-based Minecraft mod that improves the vanilla UI/UX.
 
 ---
@@ -63,7 +65,8 @@ rewrites the file immediately — no restart needed.
 
 ## License
 
-TODO — no license has been chosen yet. The mod is not licensed for redistribution until one is added.
+MIT — see [LICENSE](LICENSE). You're free to use, modify, and redistribute this mod (including in
+modpacks), as long as the copyright notice and license text are kept.
 
 ---
 

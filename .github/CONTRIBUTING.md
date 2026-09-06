@@ -105,8 +105,8 @@ Each just runs that module's `runClient` Gradle task, so **Debug** works out of 
   `forge/common/build.gradle` and `build-logic/.../buildlogic.java-forge-conventions.gradle`
   instead, since ForgeGradle's version-catalog integration is limited.
 
-Before publishing, choose a license (see the README) and add real mod icon artwork at
-`common/impl/src/main/resources/icon.png` (currently a 1x1 placeholder).
+The mod is MIT-licensed (see [LICENSE](../LICENSE)). Before publishing, add real mod icon artwork
+at `common/impl/src/main/resources/icon.png` (currently a 1x1 placeholder).
 
 ## Extending the mod config
 
