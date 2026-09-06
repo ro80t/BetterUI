@@ -1,6 +1,11 @@
 # BetterUI
 
+[![Build](https://github.com/ro80t/BetterUI/actions/workflows/build.yml/badge.svg)](https://github.com/ro80t/BetterUI/actions/workflows/build.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Latest release](https://img.shields.io/github/v/release/ro80t/BetterUI?include_prereleases)](https://github.com/ro80t/BetterUI/releases)
+[![Minecraft](https://img.shields.io/badge/Minecraft-1.16.5%E2%80%931.21.8-brightgreen.svg)](#features)
+[![Issues](https://img.shields.io/github/issues/ro80t/BetterUI)](https://github.com/ro80t/BetterUI/issues)
+[![Last commit](https://img.shields.io/github/last-commit/ro80t/BetterUI)](https://github.com/ro80t/BetterUI/commits)
 
 A client-side Mixin-based Minecraft mod that improves the vanilla UI/UX.
 
