@@ -11,6 +11,14 @@ A client-side Mixin-based Minecraft mod that improves the vanilla UI/UX.
 
 ---
 
+## Usage
+
+![ui-preview](./images/preview.webp)
+
+## Settings
+
+![settings-preview](./images/settings.webp)
+
 ## Features
 
 - **Durability show** — draws the remaining durability of a damaged item as a small number in
