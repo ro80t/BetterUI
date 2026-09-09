@@ -6,6 +6,8 @@ on:
     branches:
       - 'master'
   pull_request:
+  release:
+    types: [published]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -40,3 +42,87 @@ jobs:
         with:
           name: betterui
           path: build/distributions/*.jar
+
+  publish:
+    needs: build
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - loader: fabric
+            label: Fabric
+            mc: 1.16.5
+          - loader: fabric
+            label: Fabric
+            mc: 1.18.2
+          - loader: fabric
+            label: Fabric
+            mc: 1.19.2
+          - loader: fabric
+            label: Fabric
+            mc: 1.20.1
+          - loader: fabric
+            label: Fabric
+            mc: 1.21.1
+          - loader: fabric
+            label: Fabric
+            mc: 1.21.4
+          - loader: fabric
+            label: Fabric
+            mc: 1.21.8
+          - loader: forge
+            label: Forge
+            mc: 1.20.1
+          - loader: forge
+            label: Forge
+            mc: 1.21.1
+          - loader: forge
+            label: Forge
+            mc: 1.21.4
+          - loader: forge
+            label: Forge
+            mc: 1.21.8
+          - loader: neoforge
+            label: NeoForge
+            mc: 1.20.4
+          - loader: neoforge
+            label: NeoForge
+            mc: 1.21.1
+          - loader: neoforge
+            label: NeoForge
+            mc: 1.21.4
+          - loader: neoforge
+            label: NeoForge
+            mc: 1.21.8
+
+    steps:
+      - name: Download distribution jars
+        uses: actions/download-artifact@v8
+        with:
+          name: betterui
+          path: build/distributions
+
+      - name: Publish ${{ matrix.label }} ${{ matrix.mc }}
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          curseforge-id: 1684786
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+
+          modrinth-id: better-ui
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+
+          files: build/distributions/BetterUI-${{ matrix.label }}-${{ matrix.mc }}-*.jar
+
+          name: BetterUI ${{ github.event.release.tag_name }} for ${{ matrix.label }} ${{ matrix.mc }}
+          version: ${{ github.event.release.tag_name }}
+          version-type: release
+          changelog: ${{ github.event.release.body }}
+
+          loaders: ${{ matrix.loader }}
+          game-versions: ${{ matrix.mc }}
