@@ -141,7 +141,7 @@ jobs:
 
           name: BetterUI ${{ github.event.release.tag_name }} for ${{ matrix.label }} ${{ matrix.mc }}
           version: ${{ github.event.release.tag_name }}
-          version-type: release
+          version-type: alpha
           changelog: ${{ github.event.release.body }}
 
           loaders: ${{ matrix.loader }}
