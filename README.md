@@ -1,6 +1,6 @@
 # BetterUI
 
-[![Build](https://github.com/ro80t/BetterUI/actions/workflows/build.yml/badge.svg)](https://github.com/ro80t/BetterUI/actions/workflows/build.yml)
+[![CI](https://github.com/ro80t/BetterUI/actions/workflows/ci.yml/badge.svg)](https://github.com/ro80t/BetterUI/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Latest release](https://img.shields.io/github/v/release/ro80t/BetterUI?include_prereleases)](https://github.com/ro80t/BetterUI/releases)
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.16.5%E2%80%931.21.8-brightgreen.svg)](#features)
