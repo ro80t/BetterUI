@@ -17,9 +17,15 @@ dependencies {
     implementation minecraft.dependency("net.minecraftforge:forge:${libs.versions.forge.'1218'.get()}")
     annotationProcessor(variantOf(libs.mixin) { classifier('processor') })
 
-    implementation project(':common:api')
-    implementation project(':common:impl')
-    implementation project(':common:mcoverlay-v1218')
+    // compileOnly, not implementation: their classes are merged into this
+    // project's own mod-file directory by mergeDevRunClasses/jar{} below.
+    // Also having them resolve onto the runtime classpath as separate
+    // project jars would double up every package between two JPMS modules
+    // (java.lang.module.ResolutionException: "Modules betterui and api
+    // export package ... to module net.minecraftforge.forge").
+    compileOnly project(':common:api')
+    compileOnly project(':common:impl')
+    compileOnly project(':common:mcoverlay-v1218')
 }
 
 jar {
@@ -30,4 +36,33 @@ jar {
 
 tasks.named('compileJava') {
     dependsOn(project(':common:mcoverlay-v1218').tasks.named('processResources'))
+}
+
+// FML only ever treats this project's own merged output directory
+// (build/sourceSets/main, per merge-source-sets in gradle.properties) as
+// "the mod file" for dev runs - common:api/impl/mcoverlay-v1218 land on the
+// classpath as separate library jars instead (minecraft.runs.client.mods{}
+// has no effect here: ForgeGradle 7's client run never reads the
+// source_roots it builds from that config). Loaded from a different module
+// layer than the mod file, their classes referencing Minecraft types (e.g.
+// Screen) become distinct, non-assignable types at verification time
+// (VerifyError: "Bad type on operand stack"). Copying their compiled output
+// into the same merged directory keeps everything in one module, exactly
+// like the shipped jar {} above already does for a real build.
+tasks.register('mergeDevRunClasses', Copy) {
+    dependsOn(tasks.named('classes'))
+    dependsOn(project(':common:api').tasks.named('classes'))
+    dependsOn(project(':common:impl').tasks.named('classes'))
+    dependsOn(project(':common:mcoverlay-v1218').tasks.named('classes'))
+    from(project(':common:api').sourceSets.main.output)
+    from(project(':common:impl').sourceSets.main.output)
+    // common:mcoverlay-v1218 also applies java-forge-conventions, so its
+    // real output is merge-source-sets-redirected to build/sourceSets/main
+    // too, not the sourceSets.main.output paths Gradle reports by default.
+    from(project(':common:mcoverlay-v1218').layout.buildDirectory.dir('sourceSets/main'))
+    into(layout.buildDirectory.dir('sourceSets/main'))
+}
+
+tasks.matching { it.name.startsWith('run') }.configureEach {
+    dependsOn(tasks.named('mergeDevRunClasses'))
 }

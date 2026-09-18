@@ -36,8 +36,21 @@ minecraft {
     }
 }
 
+// The dev-run classpath loads each project's compiled classes from its own
+// directory. Without telling FML's module system that common:api/impl/
+// mcoverlay-v1218/neoforge:common belong to the *same* mod as this
+// project's own classes, mixin configs and classes from those modules
+// aren't visible to the dev-run's mod file (e.g. "betterui.mcoverlay.mixins.json
+// was invalid or could not be read"), and Minecraft classes referenced
+// from both sides can become two distinct, non-assignable types.
 runs {
     client {
-        modSource project.sourceSets.main
+        modSources.add('betterui',
+                project.sourceSets.main,
+                project(':common:api').sourceSets.main,
+                project(':common:impl').sourceSets.main,
+                project(':common:mcoverlay-v1218').sourceSets.main,
+                project(':neoforge:common').sourceSets.main
+        )
     }
 }

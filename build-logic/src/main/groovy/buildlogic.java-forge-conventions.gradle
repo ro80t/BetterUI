@@ -51,6 +51,8 @@ minecraft {
         configureEach {
             workingDir.convention layout.projectDirectory.dir('run')
             args "--mixin.config=${props.getProperty('id')}.mcoverlay.mixins.json"
+            minHeapSize.convention '1G'
+            maxHeapSize.convention '2G'
         }
         client {
         }
