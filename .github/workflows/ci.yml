@@ -134,7 +134,7 @@ jobs:
           curseforge-id: 1684786
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
-          modrinth-id: better-ui
+          modrinth-id: LZBaPnjw
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
 
           files: build/distributions/BetterUI-${{ matrix.label }}-${{ matrix.mc }}-*.jar
