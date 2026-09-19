@@ -128,6 +128,12 @@ jobs:
           name: betterui
           path: build/distributions
 
+      - name: Strip leading "v" from the release tag
+        id: version
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+
       - name: Publish ${{ matrix.label }} ${{ matrix.mc }}
         uses: Kir-Antipov/mc-publish@v3.3
         with:
@@ -139,8 +145,8 @@ jobs:
 
           files: build/distributions/BetterUI-${{ matrix.label }}-${{ matrix.mc }}-*.jar
 
-          name: BetterUI ${{ github.event.release.tag_name }} for ${{ matrix.label }} ${{ matrix.mc }}
-          version: ${{ github.event.release.tag_name }}
+          name: BetterUI ${{ steps.version.outputs.version }} for ${{ matrix.label }} ${{ matrix.mc }}
+          version: ${{ steps.version.outputs.version }}
           version-type: alpha
           changelog: ${{ github.event.release.body }}
 
