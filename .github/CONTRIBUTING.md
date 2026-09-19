@@ -1,5 +1,17 @@
 # Contributing to BetterUI
 
+By participating in this project, you're expected to follow the
+[Code of Conduct](../CODE_OF_CONDUCT.md).
+
+## Use of AI tools
+
+Using AI tools (e.g. ChatGPT, GitHub Copilot, Claude) to help write code
+for this project is fine. That said, you are responsible for what you
+submit: read and understand any AI-generated code before opening a pull
+request, and be ready to explain it in your own words during review. A
+pull request whose author can't explain why their own code does what it
+does isn't ready for review.
+
 ## Project layout
 
 This repository follows a **single-branch, multi-version, multi-loader** layout, based on

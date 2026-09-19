@@ -84,4 +84,5 @@ modpacks), as long as the copyright notice and license text are kept.
 ---
 
 Want to build the mod yourself, add a Minecraft version, or extend a feature? See
-[.github/CONTRIBUTING.md](.github/CONTRIBUTING.md).
+[.github/CONTRIBUTING.md](.github/CONTRIBUTING.md). Contributors are expected to follow the
+[Code of Conduct](CODE_OF_CONDUCT.md).
