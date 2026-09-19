@@ -72,19 +72,6 @@ public class Config implements IConfig {
     private HudLayout durabilityItemLayout = HudLayout.of(0.0F, 0.0F, 0, 0, 0.5F);
 
     /**
-     * Shows a WASD/mouse/space/shift keystrokes panel with a clicks-per-second
-     * row for LMB/RMB. Toggle by editing the mod's config JSON file (see
-     * {@link ConfigIo}) and restarting, or in-game via the BetterUI settings
-     * screen.
-     */
-    private boolean keystrokesDisplayEnabled = true;
-
-    /**
-     * Screen position/scale of the keystrokes panel.
-     */
-    private HudLayout keystrokesLayout = HudLayout.of(0.0F, 1.0F, 2, -80);
-
-    /**
      * Each resets one HUD element's position/scale back to its default
      * value, in place, so any long-lived references to the {@link HudLayout}
      * instance stay valid. Used by each row's own "Reset" button on the
@@ -106,10 +93,6 @@ public class Config implements IConfig {
         this.durabilityItemLayout.set(0.0F, 0.0F, 0, 0, 0.5F);
     }
 
-    public void resetKeystrokesLayout() {
-        this.keystrokesLayout.set(0.0F, 1.0F, 2, -80, 1.0F);
-    }
-
     /**
      * Resets every HUD position/scale/orientation setting back to its
      * default value. Used by the "Reset to Default" button on the BetterUI
@@ -121,6 +104,5 @@ public class Config implements IConfig {
         resetArmorHudLayout();
         this.armorHudVertical = true;
         resetDurabilityItemLayout();
-        resetKeystrokesLayout();
     }
 }
