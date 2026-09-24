@@ -152,3 +152,6 @@ jobs:
 
           loaders: ${{ matrix.loader }}
           game-versions: ${{ matrix.mc }}
+
+          client-side: required
+          server-side: unsupported
